@@ -5,6 +5,7 @@ apply plugin: 'java'
 
 apply plugin: 'javafx-gradle-plugin'
 
+//noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.8
 
 dependencies {
@@ -46,14 +47,6 @@ jfx {
     deployDir = "src/main/deploy"
     useEnvironmentRelativeExecutables = true
 
-    // gradle jfxJar
-    css2bin = false
-    preLoader = null // String
-    updateExistingJar = false
-    allPermissions = false
-    manifestAttributes = null // Map<String, String>
-    addPackagerJar = true
-    copyAdditionalAppResourcesToJar = false
 
     // gradle jfxNative
     identifier = null  // String - setting this for windows-bundlers makes it possible to generate upgradeable installers (using same GUID)
@@ -74,37 +67,10 @@ jfx {
     noBlobSigning = false // when using bundler "jnlp", you can choose to NOT use blob signing
     customBundlers = null // List<String>
     skipNativeLauncherWorkaround205 = false
-
     skipNativeLauncherWorkaround124 = false
     skipNativeLauncherWorkaround167 = false
     skipJNLPRessourcePathWorkaround182 = false
     skipSigningJarFilesJNLP185 = false
     skipSizeRecalculationForJNLP185 = false
 
-    // gradle jfxRun
-    runJavaParameter = null // String
-    runAppParameter = null // String
-
-    // per default the outcome of the gradle "jarTask" will be used, set this to specify otherwise (like proguard-output)
-    alternativePathToJarFile = null // String
-
-    // to disable patching of ant-javafx.jar, set this to false
-    usePatchedJFXAntLib = true
-
-    // making it able to support absolute paths, defaults to "false" for maintaining old behaviour
-    checkForAbsolutePaths = false
-
-    // gradle jfxGenerateKeyStore
-    keyStore = "src/main/deploy/keystore.jks"
-    keyStoreAlias = "myalias"
-    keyStorePassword = "password"
-    keyPassword = null // will default to keyStorePassword
-    keyStoreType = "jks"
-    overwriteKeyStore = false
-
-    certDomain = null // required
-    certOrgUnit = null // defaults to "none"
-    certOrg = null // required
-    certState = null // required
-    certCountry = null // required
 }
