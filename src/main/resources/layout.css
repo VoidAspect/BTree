@@ -1,131 +1,147 @@
 .root {
-  -fx-background-color: transparent;
+    -fx-background-color: transparent;
 }
 
 .search {
-  -fx-font: 18px "Segoe UI";
+    -fx-font: 18px "Segoe UI";
 }
 
 .split-pane-divider {
-   -fx-background-color: #403940;
-   -fx-padding: 0 1 0 1;
+    -fx-background-color: #403940;
+    -fx-padding: 0 1 0 1;
 }
 
 .menu-bar {
-  -fx-base: #333333;
-  -fx-border-radius: 0%;
-  -fx-background-radius: 0%;
-  -fx-border-width: 0 0 0 0;
+    -fx-base: #333333;
+    -fx-border-radius: 0%;
+    -fx-background-radius: 0%;
+    -fx-border-width: 0 0 0 0;
 }
+
 .menu {
-  -fx-font: 16px "Consolas";
-  -fx-background-color: transparent;
+    -fx-font: 16px "Consolas";
+    -fx-background-color: transparent;
 }
+
 .menu .label {
-  -fx-text-fill: silver;
+    -fx-text-fill: silver;
 }
+
 .menu .label:hover {
-  -fx-text-fill: white;
+    -fx-text-fill: white;
 }
 
 .controls {
-  -fx-background-color: #343034;
+    -fx-background-color: #343034;
 }
 
 .hide-controls-button {
-  -fx-base: #333333;
-  -fx-border-radius: 0%;
-  -fx-background-radius: 0%;
-  -fx-border-width: 1;
-  -fx-text-fill: #ff8888;
+    -fx-base: #333333;
+    -fx-border-radius: 0%;
+    -fx-background-radius: 0%;
+    -fx-border-width: 0;
+    -fx-text-fill: #ff8888;
+    -fx-pref-width: 25;
+    -fx-max-width: 25;
+    -fx-alignment: top-left;
 }
+
 .hide-controls-button:focused {
-  -fx-border-color: red;
+    -fx-border-color: red;
 }
 
 .hide-controls {
-  -fx-rotate: -90;
-  -fx-font: 18px "Consolas";
-  -fx-text-background-color: #ff8888;
+    -fx-rotate: -90;
+    -fx-font: 18px "Consolas";
+    -fx-text-background-color: silver;
 }
+
 .scroll-bar {
     -fx-background-color: transparent;
 }
+
 .scroll-bar .thumb {
-  -fx-background-color: #343034;
-  -fx-opacity: 60%;
-  -fx-border-radius: 0%;
-  -fx-background-radius: 0%;
+    -fx-background-color: #343034;
+    -fx-opacity: 60%;
+    -fx-border-radius: 0%;
+    -fx-background-radius: 0%;
 }
-.scroll-bar .track{
-  -fx-background-color: #aa9999;
+
+.scroll-bar .track {
+    -fx-background-color: #aa9999;
 }
+
 .increment-button, .decrement-button, .increment-arrow, .decrement-arrow {
-  -fx-visible: false;
-  -fx-background-color: transparent;
-  -fx-pref-height: 0px;
-  -fx-pref-width: 0px;
+    -fx-visible: false;
+    -fx-background-color: transparent;
+    -fx-pref-height: 0px;
+    -fx-pref-width: 0px;
 }
-.corner{
-  -fx-background-color: transparent;
-  -fx-pref-height: 0px;
-  -fx-pref-width: 0px;
+
+.corner {
+    -fx-background-color: transparent;
+    -fx-pref-height: 0px;
+    -fx-pref-width: 0px;
 }
+
 .scroll-pane {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-border-width: 0;
 }
+
 .viewport {
-  -fx-background-color: #aa9999;
+    -fx-background-color: #aa9999;
 }
 
 .control-btn {
-  -fx-font: bold 20px "Consolas";
-  -fx-text-fill: #ffaaaa;
-  -fx-background-radius: 0%;
-  -fx-border-width: 0 0 0 0;
-  -fx-border-color: #ff8888;
-  -fx-border-radius: 0%;
-  -fx-pref-height: 50;
-  -fx-base: #333333;
+    -fx-font: bold 20px "Consolas";
+    -fx-text-fill: #ffaaaa;
+    -fx-background-radius: 0%;
+    -fx-border-width: 0 0 0 0;
+    -fx-border-color: #ff8888;
+    -fx-border-radius: 0%;
+    -fx-pref-height: 50;
+    -fx-base: #333333;
 }
+
 .control-btn:pressed {
-  -fx-border-color: red;
+    -fx-border-color: red;
 }
+
 .control-btn:focused {
-  -fx-border-color: red;
-  -fx-border-width: 1;
+    -fx-border-color: red;
+    -fx-border-width: 1;
 }
 
 .console {
-  -fx-background-color: #403940;
-  -fx-font: 18px "Consolas";
-  -fx-padding: 10 10 10 10;
+    -fx-background-color: #403940;
+    -fx-font: 18px "Consolas";
+    -fx-padding: 10 10 10 10;
 }
 
 .console-label {
-  -fx-fill: #ff8888;
+    -fx-fill: #ff8888;
 }
 
 .console-out {
-  -fx-fill: cadetblue;
+    -fx-fill: cadetblue;
 }
 
 .cell {
-  -fx-font: 20px "Consolas";
-  -fx-background-radius: 100%;
-  -fx-border-width: 2;
-  -fx-border-color: black;
-  -fx-border-radius: 100%;
-  -fx-pref-width: 60;
-  -fx-pref-height: 60;
-  -fx-max-width: 90;
-  -fx-max-height: 90;
-  -fx-alignment: center;
-  -fx-background-color: white;
+    -fx-font: 20px "Consolas";
+    -fx-background-radius: 100%;
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-border-radius: 100%;
+    -fx-pref-width: 60;
+    -fx-pref-height: 60;
+    -fx-max-width: 90;
+    -fx-max-height: 90;
+    -fx-alignment: center;
+    -fx-background-color: white;
 }
 
 .cell-selected {
-  -fx-background-color: #9999ff;
+    -fx-background-color: #9999ff;
 }

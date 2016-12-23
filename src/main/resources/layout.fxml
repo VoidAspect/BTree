@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -44,7 +43,7 @@
                 </center>
                 <left>
                     <AnchorPane fx:id="rightControlGroup" BorderPane.alignment="CENTER">
-                        <VBox fx:id="sideBar" layoutX="27.0" layoutY="14.0" prefHeight="250.0" prefWidth="180.0" styleClass="controls" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="0.0">
+                        <VBox fx:id="sideBar" layoutX="27.0" layoutY="14.0" prefHeight="250.0" prefWidth="180.0" styleClass="controls" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <AnchorPane prefHeight="35.0" prefWidth="171.0">
                                 <TextField fx:id="input" layoutX="34.0" prefHeight="35.0" prefWidth="134.0" promptText="⌕ Поиск | Ввод" styleClass="search" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                             </AnchorPane>
@@ -59,11 +58,9 @@
                                 <Button id="random-btn" mnemonicParsing="false" onAction="#insertRandom" styleClass="control-btn" text="Случайный" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0" />
                             </AnchorPane>
                         </VBox>
-                        <ToggleButton fx:id="sideBarToggle" mnemonicParsing="false" onAction="#hideSideBar" prefHeight="251.0" prefWidth="40.0" selected="true" styleClass="hide-controls-button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ToggleButton fx:id="sideBarToggle" alignment="TOP_LEFT" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#hideSideBar" prefHeight="335.0" prefWidth="25.0" selected="true" styleClass="hide-controls-button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <graphic>
-                                <Group>
-                                    <Label styleClass="hide-controls" text="Панель управления" />
-                                </Group>
+                                 <Label styleClass="hide-controls" text="▼" />
                             </graphic>
                         </ToggleButton>
                     </AnchorPane>
@@ -71,18 +68,14 @@
             </BorderPane>
         </AnchorPane>
         <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="106.0" prefWidth="600.0" style="-fx-background-color: #403940;" SplitPane.resizableWithParent="false">
-            <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                        AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <TextFlow prefHeight="200.0" prefWidth="636.0" styleClass="console">
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label"
-                          text="&gt; Прямой обход:     "/>
-                    <Text fx:id="preOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-out"/>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label"
-                          text="&#10;&gt; Обратный обход:   "/>
-                    <Text fx:id="postOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-out"/>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label"
-                          text="&#10;&gt; Внутренний обход: "/>
-                    <Text fx:id="inOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-out"/>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&gt; Прямой обход:     " />
+                    <Text fx:id="preOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-out" />
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&#10;&gt; Обратный обход:   " />
+                    <Text fx:id="postOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-out" />
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&#10;&gt; Внутренний обход: " />
+                    <Text fx:id="inOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-out" />
                 </TextFlow>
             </ScrollPane>
         </AnchorPane>
