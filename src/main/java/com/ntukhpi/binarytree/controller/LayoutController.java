@@ -1,9 +1,14 @@
 package com.ntukhpi.binarytree.controller;
 
 import com.ntukhpi.binarytree.graph.BTreeGraph;
+import com.ntukhpi.binarytree.graph.Style;
+import com.ntukhpi.binarytree.model.Traversal;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -12,6 +17,8 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * @author Alexander Gorbunov
@@ -23,6 +30,12 @@ public class LayoutController implements Initializable {
     private static final int UPPER_BOUND_RANDOM = 1000;
 
     private static final int LOWER_BOUND_RANDOM = -999;
+
+    /**
+     * Разделитель " -> " для конкатенации строк при составлении сообщения об обходе в методе {@link BTreeGraph#getTraversalOrder(Traversal)}.
+     */
+    private static final Collector<CharSequence, ?, String> TRAVERSAL_ORDER_ARROW = Collectors.joining(" => ");
+
 
     /**
      * Visual representation of a binary onKeyPressed tree.
@@ -69,7 +82,8 @@ public class LayoutController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         viewArea.prefWidthProperty().bind(workSpace.widthProperty().subtract(rightControlGroup.getWidth()));
-        board.getChildren().add(treeGraph.getContent());
+        Group content = treeGraph.getContent();
+        board.getChildren().add(content);
     }
 
     /*##############################
@@ -129,6 +143,12 @@ public class LayoutController implements Initializable {
     }
 
     @FXML
+    public void play(ActionEvent actionEvent) {  //todo add animation controls
+        String buttonId = ((Button) actionEvent.getSource()).getId();
+        playAnimation(PlayAction.getById(buttonId));
+    }
+
+    @FXML
     public void onKeyPressed(KeyEvent keyEvent) {
         KeyCode keyCode = keyEvent.getCode();
         if (keyCode.equals(KeyCode.ENTER)) {
@@ -156,10 +176,28 @@ public class LayoutController implements Initializable {
         Platform.exit();
     }
 
+    private void playAnimation(PlayAction action) {  //todo implement animation
+        Set<Node> controls = sideBar.lookupAll(".button")
+                .stream()
+                .filter(node -> !node.getStyleClass().contains(Style.ANIMATION_BUTTON.getStyleClass()))
+                .collect(Collectors.toSet());
+
+        if (action == PlayAction.START) {
+            controls.forEach(node -> node.setDisable(true));
+        }
+        controls.forEach(node -> node.setDisable(false));
+    }
+
     private void updateConsole() {
-        preOrderOut.setText(treeGraph.getTraversalPreOrder());
-        postOrderOut.setText(treeGraph.getTraversalPostOrder());
-        inOrderOut.setText(treeGraph.getTraversalInOrder());
+        preOrderOut.setText(Arrays.stream(treeGraph.getTraversalPreOrder())
+                .map(String::valueOf)
+                .collect(TRAVERSAL_ORDER_ARROW));
+        postOrderOut.setText(Arrays.stream(treeGraph.getTraversalPostOrder())
+                .map(String::valueOf)
+                .collect(TRAVERSAL_ORDER_ARROW));
+        inOrderOut.setText(Arrays.stream(treeGraph.getTraversalInOrder())
+                .map(String::valueOf)
+                .collect(TRAVERSAL_ORDER_ARROW));
     }
 
     private Optional<Integer> getInput() {
@@ -176,4 +214,23 @@ public class LayoutController implements Initializable {
         return Optional.ofNullable(value);
     }
 
+    private enum PlayAction {
+        START("start"), PAUSE("pause"), STOP("stop"), NONE;
+
+        private String id;
+
+        PlayAction() {
+        }
+
+        PlayAction(String id) {
+            this.id = id;
+        }
+
+        static PlayAction getById(String id) {
+           return Arrays.stream(values())
+                   .filter(v -> v.id.equals(id))
+                   .findFirst()
+                   .orElse(NONE);
+        }
+    }
 }

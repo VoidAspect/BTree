@@ -1,5 +1,9 @@
 .root {
     -fx-background-color: transparent;
+
+    -fx-accent: red;
+
+    -fx-focus-color: red;
 }
 
 .search {
@@ -39,16 +43,14 @@
     -fx-base: #333333;
     -fx-border-radius: 0%;
     -fx-background-radius: 0%;
-    -fx-border-width: 0;
     -fx-text-fill: #ff8888;
     -fx-pref-width: 25;
     -fx-max-width: 25;
     -fx-alignment: top-left;
 }
-
-.hide-controls-button:focused {
-    -fx-border-color: red;
-}
+/*.hide-controls-button:selected:focused:armed > .hide-controls {
+    -fx-rotate: 0;
+}*/
 
 .hide-controls {
     -fx-rotate: -90;
@@ -95,23 +97,98 @@
 }
 
 .control-btn {
-    -fx-font: bold 20px "Consolas";
+    -fx-font: 16px "Consolas";
     -fx-text-fill: #ffaaaa;
     -fx-background-radius: 0%;
     -fx-border-width: 0 0 0 0;
     -fx-border-color: #ff8888;
     -fx-border-radius: 0%;
-    -fx-pref-height: 50;
+    -fx-pref-height: 30;
+    -fx-max-height: 30;
+    -fx-min-height: 30;
     -fx-base: #333333;
 }
 
-.control-btn:pressed {
-    -fx-border-color: red;
+.control-btn-left {
+    -fx-alignment: top-left;
 }
 
-.control-btn:focused {
-    -fx-border-color: red;
+.titled-pane {
+    -fx-font: 16px "Consolas";
+    -fx-text-fill: #ffaaaa;
+    -fx-pref-width: 180;
+    -fx-padding: 0 0 0 0;
+    -fx-background-color: #343034;
+}
+
+.titled-pane > .title {
+    -fx-alignment: center-left;
+    -fx-background-radius: 0%;
+    -fx-border-width: 0 0 0 0;
+    -fx-base: #333333;
+    -fx-border-radius: 0%;
+    -fx-padding: 0.166667em 0.833333em 0.25em 0.6em; /* 2 10 3 10 */
+    -fx-pref-height: 30;
+    -fx-max-height: 30;
+    -fx-min-height: 30;
+
+}
+
+.titled-pane > .title > .arrow-button {
+    -fx-padding: 0 7 0 0;
+}
+
+.titled-pane > .title > .arrow-button .arrow {
+    -fx-background-color: #ffaaaa, #ff8888;
+    -fx-scale-x: 0.8;
+    -fx-scale-y: 0.8;
+}
+
+.titled-pane:focused > .title > .arrow-button .arrow {
+    -fx-background-color: #ffaaaa, #ff8888;
+    /*-fx-border-color: red;*/
+}
+
+.titled-pane > *.content {
+    -fx-background-color: #393739;
+    -fx-border-color: #343034;
+    /*-fx-border-color: red;*/
+}
+
+.animation-btn {
+    -fx-font: 12px "Consolas";
+    -fx-alignment: center;
+    -fx-text-fill: silver;
+    -fx-background-radius: 100%;
+    -fx-border-radius: 100%;
     -fx-border-width: 1;
+    -fx-border-color: silver;
+    -fx-pref-height: 35;
+    -fx-min-width: 35;
+    -fx-pref-width: 35;
+    -fx-max-width: 35;
+    -fx-base: #333333;
+}
+.animation-btn:focused {
+    -fx-text-fill: #ffaaaa;
+}
+
+.titled-pane .radio-button {
+    -fx-text-fill: #ffaaaa;
+    /*-fx-background-color: #303030;*/
+    /*-fx-border-color: silver;*/
+
+}
+.titled-pane .radio-button .radio {
+    -fx-scale-x: 0.7;
+    -fx-scale-y: 0.7;
+    -fx-background-color: #333333;
+    -fx-border-color: silver;
+    -fx-border-radius: 100%;
+    -fx-background-radius: 100%;
+}
+.titled-pane .radio-button:selected .dot {
+    -fx-background-color: silver;
 }
 
 .console {
@@ -122,6 +199,9 @@
 
 .console-label {
     -fx-fill: #ff8888;
+}
+.console-label:selected {
+    -fx-fill: lightseagreen;
 }
 
 .console-out {

@@ -11,8 +11,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Line;
 
 import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import static com.ntukhpi.binarytree.graph.Style.CELL_SELECTED_STYLE;
 import static com.ntukhpi.binarytree.graph.Style.CELL_STYLE;
@@ -38,16 +36,6 @@ public class BTreeGraph {
      * Базовый радиус ячейки на графе. //todo автомасштаб
      */
     private static final double CELL_RADIUS = 30;
-
-    /**
-     * Промежуток между уровнями дерева.
-     */
-    private static final double VERTICAL_GAP = CELL_RADIUS * 3;
-
-    /**
-     * Разделитель " -> " для конкатенации строк при составлении сообщения об обходе в методе {@link BTreeGraph#getTraversalOrder(Traversal)}.
-     */
-    private static final Collector<CharSequence, ?, String> TRAVERSAL_ORDER_ARROW = Collectors.joining(" => ");
 
     /**
      * Ячейки - группа вершин дерева, предстваленных стилизованным {@link Label}.
@@ -100,17 +88,15 @@ public class BTreeGraph {
      * @return результат поиска: найден/не найден.
      */
     public boolean findNode(int value) {
-        return updateView(value, () ->
+        return update(value, () ->
                 Optional.ofNullable(cells.lookup("#" + value))
                         .ifPresent(label -> selectCell((Label) label)));
     }
 
     //todo COMMENTS FOR EVERYTHING
     public void addNode(int value) {
-        updateView(() -> {
-            tree = tree.insert(value);
-            draw();
-        });
+        update(() -> tree = tree.insert(value));
+        draw();
     }
 
     public void removeNode() {
@@ -118,22 +104,20 @@ public class BTreeGraph {
     }
 
     public void removeNode(int value) {
-        updateView(value, () -> {
-            tree = tree.remove(value);
-            draw();
-        });
+        update(value, () -> tree = tree.remove(value));
+        draw();
     }
 
     public void mutateNode(int newValue) {
         getSelected().ifPresent(selected -> {
             int oldValue = Integer.parseInt(selected.getText());
-            updateView(oldValue, () -> {
+            update(oldValue, () -> {
                 Integer[] nodes = tree.traverse(Traversal.PRE_ORDER).stream()
                         .map(e -> (e == oldValue) ? newValue : e)
                         .toArray(Integer[]::new);
                 tree = TREE_FACTORY.immutableTree(nodes);
-                draw();
             });
+            draw();
         });
     }
 
@@ -151,22 +135,21 @@ public class BTreeGraph {
         tree.min().ifPresent(this::findNode);
     }
 
-    public String getTraversalInOrder() {
+    public Integer[] getTraversalInOrder() {
         return getTraversalOrder(Traversal.IN_ORDER);
     }
 
-    public String getTraversalPreOrder() {
+    public Integer[] getTraversalPreOrder() {
         return getTraversalOrder(Traversal.PRE_ORDER);
     }
 
-    public String getTraversalPostOrder() {
+    public Integer[] getTraversalPostOrder() {
         return getTraversalOrder(Traversal.POST_ORDER);
     }
 
-    private String getTraversalOrder (Traversal traversal) {
-        return tree.traverse(traversal).stream()
-                .map(String::valueOf)
-                .collect(TRAVERSAL_ORDER_ARROW);
+    private Integer[] getTraversalOrder (Traversal traversal) {
+       return tree.traverse(traversal).stream()
+               .toArray(Integer[]::new);
     }
 
     private Optional<Label> getSelected() {
@@ -175,18 +158,20 @@ public class BTreeGraph {
 
     private void draw() {
         scrap();
-        updateView(() -> displayNodes((NavigableTree<Integer>) tree));
+        update(() -> displayNodes((NavigableTree<Integer>) tree));
     }
 
     private void scrap() {
-        updateView(() -> {
+        update(() -> {
             cells.getChildren().clear();
             vertices.getChildren().clear();
         });
     }
 
     private void displayNodes(NavigableTree<Integer> tree) {
-        buildLevels(tree, new Position(0, 0), 0).forEach((k, v) -> drawCell(k, v.x, v.y));
+        buildLevels(tree, new Position(0, 0), 0)
+                .forEach((k, v) ->
+                        drawCell(k, v.x, v.y));
         drawVertices(tree);
     }
 
@@ -200,10 +185,12 @@ public class BTreeGraph {
         NavigableTree<Integer> left = tree.left();
         NavigableTree<Integer> right = tree.right();
 
-        double horizontalGap = VERTICAL_GAP * (2 / ((double) level + 1));
-        if (!left.isEmpty()) nodeMap.putAll(buildLevels(left, position.move(-horizontalGap, VERTICAL_GAP), level + 1));
+        double horizontalGap = CELL_RADIUS * 3 * (2 / ((double) level + 1));
+        double verticalGap = CELL_RADIUS * 3;
 
-        if (!right.isEmpty()) nodeMap.putAll(buildLevels(right, position.move(horizontalGap, VERTICAL_GAP), level + 1));
+        if (!left.isEmpty()) nodeMap.putAll(buildLevels(left, position.move(-horizontalGap, verticalGap), level + 1));
+
+        if (!right.isEmpty()) nodeMap.putAll(buildLevels(right, position.move(horizontalGap, verticalGap), level + 1));
 
         return nodeMap;
     }
@@ -231,14 +218,14 @@ public class BTreeGraph {
 
     }
 
-    private void updateView(Runnable update) {
+    private void update(Runnable update) {
         update.run();
     }
 
-    private boolean updateView(int value, Runnable update) {
+    private boolean update(int value, Runnable update) {
         boolean contains = tree.contains(value);
         if (contains) {
-            updateView(update);
+            update(update);
         }
         return contains;
     }
@@ -280,7 +267,7 @@ public class BTreeGraph {
     }
 
     private void selectCell(Label cell, boolean unselectable) {
-        updateView(() -> {
+        update(() -> {
             ObservableList<String> styleClass = cell.getStyleClass();
             String selected = CELL_SELECTED_STYLE.getStyleClass();
             if (!styleClass.contains(selected)) {

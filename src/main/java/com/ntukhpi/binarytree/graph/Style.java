@@ -5,6 +5,8 @@ package com.ntukhpi.binarytree.graph;
  */
 public enum Style {
 
+    ANIMATION_BUTTON("animation-btn"),
+
     CELL_SELECTED_STYLE("cell-selected"),
 
     CELL_STYLE("cell");
