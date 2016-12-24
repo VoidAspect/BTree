@@ -12,6 +12,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
@@ -75,14 +76,21 @@
                               <String fx:value="control-btn-left" />
                            </styleClass></Button>
                             </AnchorPane>
-                            <TitledPane animated="false" maxHeight="1.7976931348623157E308" prefWidth="180.0" text="Анимация">
+                            <TitledPane animated="false" maxHeight="1.7976931348623157E308" prefWidth="180.0" text="Анимация" VBox.vgrow="ALWAYS">
                                 <padding>
                                     <Insets left="3.0" />
                                 </padding>
-                                <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="186.0">
-                                    <Button id="start" layoutX="25.8" layoutY="25.8" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="30.0" styleClass="animation-btn" text="&gt;" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
-                                    <Button id="pause" layoutX="72.0" layoutY="13.0" mnemonicParsing="false" onAction="#play" prefHeight="30.0" styleClass="animation-btn" text="||" AnchorPane.topAnchor="0.0" />
-                                    <Button id="stop" layoutX="103.0" layoutY="35.8" mnemonicParsing="false" onAction="#play" prefHeight="30.0" styleClass="animation-btn" text="■" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0" />
+                                <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="178.0">
+                                    <Button id="play" layoutX="25.8" layoutY="25.8" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="30.0" styleClass="animation-btn" text="&gt;" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
+                                    <Button id="pause" layoutX="72.0" layoutY="13.0" mnemonicParsing="false" onAction="#pause" prefHeight="30.0" styleClass="animation-btn" text="||" AnchorPane.topAnchor="0.0" />
+                                    <Button id="stop" layoutX="103.0" layoutY="35.8" mnemonicParsing="false" onAction="#stop" prefHeight="30.0" styleClass="animation-btn" text="■" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0" />
+                           <ToggleButton fx:id="togglePreOrder" onAction="#initCellNumberMap" layoutX="25.0" layoutY="72.0" mnemonicParsing="false" selected="true" styleClass="order-btn" text="* Прямой обход" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="60.0">
+                              <toggleGroup>
+                                 <ToggleGroup fx:id="orders" />
+                              </toggleGroup>
+                           </ToggleButton>
+                           <ToggleButton fx:id="togglePostOrder" onAction="#initCellNumberMap" layoutX="26.0" layoutY="102.0" mnemonicParsing="false" styleClass="order-btn" text="* Обратный обход" toggleGroup="$orders" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="85.0" />
+                           <ToggleButton fx:id="toggleInOrder" onAction="#initCellNumberMap" layoutX="14.0" layoutY="132.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="152.0" styleClass="order-btn" text="* Внутренний обход" toggleGroup="$orders" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="110.0" />
                                 </AnchorPane>
                             </TitledPane>
                         </VBox>

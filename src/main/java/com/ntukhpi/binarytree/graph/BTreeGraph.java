@@ -11,6 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Line;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 import static com.ntukhpi.binarytree.graph.Style.CELL_SELECTED_STYLE;
 import static com.ntukhpi.binarytree.graph.Style.CELL_STYLE;
@@ -35,7 +36,7 @@ public class BTreeGraph {
     /**
      * Базовый радиус ячейки на графе. //todo автомасштаб
      */
-    private static final double CELL_RADIUS = 30;
+    private static final double CELL_RADIUS = 20;
 
     /**
      * Ячейки - группа вершин дерева, предстваленных стилизованным {@link Label}.
@@ -135,19 +136,29 @@ public class BTreeGraph {
         tree.min().ifPresent(this::findNode);
     }
 
+    public boolean isEmpty() {
+        return tree.isEmpty();
+    }
+
+    public void unselect() {
+        cells.getChildren()
+                .forEach(node -> node.getStyleClass()
+                        .removeIf(Predicate.isEqual(CELL_SELECTED_STYLE.getStyleClass())));
+    }
+
     public Integer[] getTraversalInOrder() {
-        return getTraversalOrder(Traversal.IN_ORDER);
+        return getTraversal(Traversal.IN_ORDER);
     }
 
     public Integer[] getTraversalPreOrder() {
-        return getTraversalOrder(Traversal.PRE_ORDER);
+        return getTraversal(Traversal.PRE_ORDER);
     }
 
     public Integer[] getTraversalPostOrder() {
-        return getTraversalOrder(Traversal.POST_ORDER);
+        return getTraversal(Traversal.POST_ORDER);
     }
 
-    private Integer[] getTraversalOrder (Traversal traversal) {
+    private Integer[] getTraversal (Traversal traversal) {
        return tree.traverse(traversal).stream()
                .toArray(Integer[]::new);
     }
