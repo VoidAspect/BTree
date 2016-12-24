@@ -13,4 +13,6 @@ public interface NavigableTree<T extends Comparable<T>> extends Tree<T> {
 
     Optional<T> getRoot();
 
+    int height();
+
 }

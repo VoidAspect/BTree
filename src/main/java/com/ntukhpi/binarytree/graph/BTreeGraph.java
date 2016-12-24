@@ -38,6 +38,8 @@ public class BTreeGraph {
      */
     private static final double CELL_RADIUS = 20;
 
+    private static final double VERTICAL_GAP = CELL_RADIUS * 3;
+
     /**
      * Ячейки - группа вершин дерева, предстваленных стилизованным {@link Label}.
      */
@@ -98,6 +100,7 @@ public class BTreeGraph {
     public void addNode(int value) {
         update(() -> tree = tree.insert(value));
         draw();
+        findNode(value);
     }
 
     public void removeNode() {
@@ -180,13 +183,13 @@ public class BTreeGraph {
     }
 
     private void displayNodes(NavigableTree<Integer> tree) {
-        buildLevels(tree, new Position(0, 0), 0)
-                .forEach((k, v) ->
-                        drawCell(k, v.x, v.y));
+        Map<Integer, Position> levels = buildLevels(tree, new Position(0, 0));
+
+        levels.forEach((k, v) -> drawCell(k, v.x, v.y));
         drawVertices(tree);
     }
 
-    private Map<Integer, Position> buildLevels(NavigableTree<Integer> tree, Position position, final int level) {
+    private Map<Integer, Position> buildLevels(NavigableTree<Integer> tree, Position position) {
         if (tree.isEmpty()) return Collections.emptyMap();
 
         Map<Integer, Position> nodeMap = new HashMap<>();
@@ -196,12 +199,13 @@ public class BTreeGraph {
         NavigableTree<Integer> left = tree.left();
         NavigableTree<Integer> right = tree.right();
 
-        double horizontalGap = CELL_RADIUS * 3 * (2 / ((double) level + 1));
-        double verticalGap = CELL_RADIUS * 3;
+        int height = right.height() > left.height()? right.height() : left.height();
+        double horizontalGap = (CELL_RADIUS) * Math.pow(2, height);
 
-        if (!left.isEmpty()) nodeMap.putAll(buildLevels(left, position.move(-horizontalGap, verticalGap), level + 1));
+        if (!left.isEmpty()) nodeMap.putAll(buildLevels(left, position.move(-horizontalGap, VERTICAL_GAP)));
 
-        if (!right.isEmpty()) nodeMap.putAll(buildLevels(right, position.move(horizontalGap, verticalGap), level + 1));
+        if (!right.isEmpty()) nodeMap.putAll(buildLevels(right, position.move(horizontalGap, VERTICAL_GAP)));
+
 
         return nodeMap;
     }
@@ -252,7 +256,7 @@ public class BTreeGraph {
         cell.setOnMouseClicked(e -> selectCell(cell, true));
         cell.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.DELETE)) {
-                removeNode();
+                removeNode(value);
             }
         });
         cells.getChildren().add(cell);

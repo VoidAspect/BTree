@@ -44,8 +44,6 @@ abstract class NonEmptyTree<T extends Comparable<T>> extends ImmutableBinaryTree
         return tree;
     }
 
-    abstract ImmutableBinaryTree<T> cut();
-
     @Override
     protected ImmutableBinaryTree<T> insertAll(final ImmutableBinaryTree<T> tree) {
         ImmutableBinaryTree<T> newTree;
@@ -65,7 +63,7 @@ abstract class NonEmptyTree<T extends Comparable<T>> extends ImmutableBinaryTree
         return newTree;
     }
 
-    private ImmutableBinaryTree<T> replaceChildren(final ImmutableBinaryTree<T> leftBranch, final ImmutableBinaryTree<T> rightBranch) {
+    ImmutableBinaryTree<T> replaceChildren(final ImmutableBinaryTree<T> leftBranch, final ImmutableBinaryTree<T> rightBranch) {
         ImmutableBinaryTree<T> tree;
         if (leftBranch == left() && rightBranch == right()) {
             tree = this;

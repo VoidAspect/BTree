@@ -10,6 +10,14 @@ final class DualBranch<T extends Comparable<T>> extends NonEmptyTree<T> {
 
     DualBranch(final T value, final ImmutableBinaryTree<T> left, final ImmutableBinaryTree<T> right) {
         super(value);
+
+        if (left.isEmpty() || right.isEmpty()) {
+            throw new TreeNodeValueException("Can't initialize dual brunch: children must not be empty. "
+                    + "\nRight child: " + String.valueOf(value)
+                    + "\nLeft child: " + String.valueOf(value)
+                    + "\nValue: " + String.valueOf(value));
+        }
+
         leftChild = left;
         rightChild = right;
     }
@@ -25,7 +33,7 @@ final class DualBranch<T extends Comparable<T>> extends NonEmptyTree<T> {
     }
 
     @Override
-    ImmutableBinaryTree<T> cut() {
+    protected ImmutableBinaryTree<T> cut() {
         //        return new DualBranch<>(left().max().get(), left().remove(left().max().get()), right());
         Supplier<TreeNodeValueException> exceptionSupplier = () ->
                 new TreeNodeValueException("This node shouldn't have null value, tree structure: " + toString());
@@ -34,12 +42,14 @@ final class DualBranch<T extends Comparable<T>> extends NonEmptyTree<T> {
 
         if (left().traverse(Traversal.IN_ORDER).size() >= right().traverse(Traversal.IN_ORDER).size()) { //compare the sizes of right and left branches
             minMax = left().max().orElseThrow(exceptionSupplier);
-            tree = new DualBranch<>(minMax, left().remove(minMax), right());
+            tree = ((NonEmptyTree<T>) clear().insert(minMax)).replaceChildren(leftChild.remove(minMax), rightChild);
         } else {
             minMax = right().min().orElseThrow(exceptionSupplier);
-            tree = new DualBranch<>(minMax, left(), right().remove(minMax));
+            tree = ((NonEmptyTree<T>) clear().insert(minMax)).replaceChildren(leftChild, rightChild.remove(minMax));
         }
+
         return tree;
     }
+
 
 }

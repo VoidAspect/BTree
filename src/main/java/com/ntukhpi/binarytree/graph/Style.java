@@ -9,7 +9,9 @@ public enum Style {
 
     CELL_SELECTED_STYLE("cell-selected"),
 
-    CELL_STYLE("cell");
+    CELL_STYLE("cell"),
+
+    CONSOLE_OUT_SELECTED("console-out-selected");
 
     private final String styleClass;
 

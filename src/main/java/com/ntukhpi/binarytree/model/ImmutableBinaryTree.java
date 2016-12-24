@@ -17,6 +17,10 @@ abstract class ImmutableBinaryTree<T extends Comparable<T>> implements Navigable
     @Override
     public abstract ImmutableBinaryTree<T> right();
 
+    protected abstract ImmutableBinaryTree<T> cut();
+
+    protected abstract ImmutableBinaryTree<T> insertAll(ImmutableBinaryTree<T> tree);
+
     @Override
     public Tree<T> clear() {
         return EmptyTree.instance();
@@ -27,6 +31,32 @@ abstract class ImmutableBinaryTree<T extends Comparable<T>> implements Navigable
         return this == EmptyTree.instance();
     }
 
-    protected abstract ImmutableBinaryTree<T> insertAll(ImmutableBinaryTree<T> tree);
+    @Override
+    public int height() {
+        int level;
+        if (isEmpty()) {
+            level = 0;
+        } else {
+            level = getHeight(1);
+        }
+        return level;
+    }
+
+    private int getHeight(int level) {
+
+        if (right().isEmpty() && left().isEmpty()) return level;
+
+        ImmutableBinaryTree<T> left = left();
+        ImmutableBinaryTree<T> right = right();
+
+        int nextLevel = level + 1;
+
+        if (left.traverse(Traversal.IN_ORDER).size() > right.traverse(Traversal.IN_ORDER).size()) {
+            return left.getHeight(nextLevel);
+        } else {
+            return right.getHeight(nextLevel);
+        }
+
+    }
 
 }

@@ -13,7 +13,7 @@ abstract class SingleBranch<T extends Comparable<T>> extends NonEmptyTree<T> {
     }
 
     @Override
-    ImmutableBinaryTree<T> cut() {
+    protected ImmutableBinaryTree<T> cut() {
         return child;
     }
 

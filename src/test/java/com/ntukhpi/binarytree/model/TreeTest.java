@@ -133,6 +133,15 @@ public class TreeTest {
 
         assertTreeStructureAfterRootRemoval("((_ 5 _) 8 (_ 10 (_ 12 _)))",
                 FACTORY.immutableTree(7, 10, 8, 12, 5));
+
+        tree = FACTORY.immutableTree(10, 9, 8, 7, 12, 41);
+
+        while (!tree.isEmpty()) {
+            tree = tree.cut();
+            System.out.println("STRUCTURE: " + tree);
+            System.out.println("CLASS:     " + tree.getClass().getName());
+        }
+
     }
 
     private void assertTreeStructureAfterRootRemoval(String structure, ImmutableBinaryTree<Integer> tree) {
@@ -161,6 +170,18 @@ public class TreeTest {
         String printedTree = balancedTree.toString();
         System.out.println(printedTree);
         assertEquals("((((_ 1 _) 2 _) 3 (_ 4 _)) 5 (((_ 6 _) 7 _) 8 (_ 9 _)))", printedTree);
+    }
+
+    @Test
+    public void levelTest() {
+        assertEquals(5, FACTORY.immutableTree(1, 2, 3, 4, 5).height());
+        assertEquals(3, FACTORY.immutableTree(5, 3, 7, 2, 4).height());
+        assertEquals(2, FACTORY.balancedTree(3, 2, 1).height());
+        assertEquals(1, FACTORY.balancedTree(1).height());
+        assertEquals(0, FACTORY.immutableTree().height());
+        ImmutableBinaryTree<Integer> tree = FACTORY.immutableTree(84, 12, -14, -972, 44, 32, 45, 56, 374, 321, 132, 906);
+        System.out.println(tree.toString());
+        assertEquals(5, tree.height());
     }
 
 }

@@ -16,10 +16,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -75,6 +77,8 @@ public class LayoutController implements Initializable {
                 }
             }));
 
+    private Toggle traverseMode;
+
     /*##############################
      #                             #
      # JavaFX elements             #
@@ -95,11 +99,16 @@ public class LayoutController implements Initializable {
     /* Console controls */
 
     @FXML
+    private TextFlow console;
+    @FXML
     private Text preOrderOut;
     @FXML
     private Text postOrderOut;
     @FXML
     private Text inOrderOut;
+
+    /* Workspace */
+
     @FXML
     private FlowPane board;
     @FXML
@@ -124,8 +133,7 @@ public class LayoutController implements Initializable {
         Group content = treeGraph.getContent();
         board.getChildren().add(content);
 
-//        orders.getToggles().forEach(toggle -> toggle.g);
-
+        traverseMode = orders.getSelectedToggle();
         //initialize animation
         animation.setCycleCount(Animation.INDEFINITE);
     }
@@ -156,7 +164,7 @@ public class LayoutController implements Initializable {
         animation.stop();
         treeGraph.unselect();
         disableControls(false);
-        initCellNumberMap();
+        initTraversalMode();
     }
 
     @FXML
@@ -175,12 +183,7 @@ public class LayoutController implements Initializable {
 
     @FXML
     public void remove() {
-        Optional<Integer> input = getInput();
-        if (input.isPresent()) {
-            treeGraph.removeNode(input.get());
-        } else {
-            treeGraph.removeNode();
-        }
+        treeGraph.removeNode();
         updateTraversal();
     }
 
@@ -213,7 +216,11 @@ public class LayoutController implements Initializable {
     public void onKeyPressed(KeyEvent keyEvent) {
         KeyCode keyCode = keyEvent.getCode();
         if (keyCode.equals(KeyCode.ENTER)) {
-            getInput().ifPresent(treeGraph::findNode);
+            getInput().ifPresent(val -> {
+                if (!treeGraph.findNode(val)) {
+                    treeGraph.addNode(val);
+                }
+            });
         } else if (keyCode.equals(KeyCode.DELETE)) {
             remove();
         }
@@ -238,23 +245,39 @@ public class LayoutController implements Initializable {
     }
 
     @FXML
-    public void initCellNumberMap() {
+    public void initTraversalMode() {
         cellNumberMap.clear();
 
-        Integer[] cellValues1;
-        Toggle selectedToggle = orders.getSelectedToggle();
-        if (selectedToggle.equals(togglePreOrder)) {
-            cellValues1 = treeGraph.getTraversalPreOrder();
-        } else if (selectedToggle.equals(togglePostOrder)) {
-            cellValues1 = treeGraph.getTraversalPostOrder();
-        } else if (selectedToggle.equals(toggleInOrder)) {
-            cellValues1 = treeGraph.getTraversalInOrder();
+        Integer[] cellValues;
+        Text text;
+
+        traverseMode = Optional.ofNullable(orders.getSelectedToggle())
+                .orElseGet(() -> {
+                    orders.selectToggle(traverseMode);
+                    return traverseMode;
+                });
+
+        if (togglePreOrder.equals(traverseMode)) {
+            cellValues = treeGraph.getTraversalPreOrder();
+            text = preOrderOut;
+        } else if (togglePostOrder.equals(traverseMode)) {
+            cellValues = treeGraph.getTraversalPostOrder();
+            text = postOrderOut;
+        } else if (toggleInOrder.equals(traverseMode)) {
+            cellValues = treeGraph.getTraversalInOrder();
+            text = inOrderOut;
         } else {
             throw new IllegalStateException("One traverse order should always be selected");
         }
-        Integer[] cellValues = cellValues1;
-
+        lightUpText(text);
         cellNumberMap.putAll(mapArrayValsToPositions(cellValues));
+        animation.jumpTo(Duration.ZERO);
+    }
+
+    private void lightUpText(Text text) {
+        console.getChildren().forEach(node -> node.getStyleClass().
+                removeIf(Predicate.isEqual(Style.CONSOLE_OUT_SELECTED.getStyleClass())));
+        text.getStyleClass().add(Style.CONSOLE_OUT_SELECTED.getStyleClass());
     }
 
     private void disableControls(boolean disable) {
@@ -263,6 +286,7 @@ public class LayoutController implements Initializable {
                 .filter(node -> !node.getStyleClass().contains(Style.ANIMATION_BUTTON.getStyleClass()))
                 .collect(Collectors.toSet());
         controls.forEach(node -> node.setDisable(disable));
+        orders.getToggles().forEach(toggle -> ((Node) toggle).setDisable(disable));
     }
 
     private void updateTraversal() {
@@ -275,7 +299,7 @@ public class LayoutController implements Initializable {
         inOrderOut.setText(Arrays.stream(treeGraph.getTraversalInOrder())
                 .map(String::valueOf)
                 .collect(TRAVERSAL_ORDER_ARROW));
-        initCellNumberMap();
+        initTraversalMode();
     }
 
     private Optional<Integer> getInput() {
@@ -299,7 +323,5 @@ public class LayoutController implements Initializable {
             posMap.put(i, vals[i]);
         }
         return posMap;
-//        return Arrays.stream(vals)
-//                .collect(Collectors.toMap((T e) -> Arrays.binarySearch(vals, e), Function.identity()));
     }
 }

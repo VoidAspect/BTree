@@ -84,13 +84,13 @@
                                     <Button id="play" layoutX="25.8" layoutY="25.8" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="30.0" styleClass="animation-btn" text="&gt;" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
                                     <Button id="pause" layoutX="72.0" layoutY="13.0" mnemonicParsing="false" onAction="#pause" prefHeight="30.0" styleClass="animation-btn" text="||" AnchorPane.topAnchor="0.0" />
                                     <Button id="stop" layoutX="103.0" layoutY="35.8" mnemonicParsing="false" onAction="#stop" prefHeight="30.0" styleClass="animation-btn" text="■" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0" />
-                           <ToggleButton fx:id="togglePreOrder" onAction="#initCellNumberMap" layoutX="25.0" layoutY="72.0" mnemonicParsing="false" selected="true" styleClass="order-btn" text="* Прямой обход" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="60.0">
+                           <ToggleButton fx:id="togglePreOrder" layoutX="25.0" layoutY="72.0" mnemonicParsing="false" onAction="#initTraversalMode" selected="true" styleClass="order-btn" text="* Прямой обход" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="60.0">
                               <toggleGroup>
                                  <ToggleGroup fx:id="orders" />
                               </toggleGroup>
                            </ToggleButton>
-                           <ToggleButton fx:id="togglePostOrder" onAction="#initCellNumberMap" layoutX="26.0" layoutY="102.0" mnemonicParsing="false" styleClass="order-btn" text="* Обратный обход" toggleGroup="$orders" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="85.0" />
-                           <ToggleButton fx:id="toggleInOrder" onAction="#initCellNumberMap" layoutX="14.0" layoutY="132.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="152.0" styleClass="order-btn" text="* Внутренний обход" toggleGroup="$orders" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="110.0" />
+                           <ToggleButton fx:id="togglePostOrder" layoutX="26.0" layoutY="102.0" mnemonicParsing="false" onAction="#initTraversalMode" styleClass="order-btn" text="* Обратный обход" toggleGroup="$orders" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="85.0" />
+                           <ToggleButton fx:id="toggleInOrder" layoutX="14.0" layoutY="132.0" mnemonicParsing="false" onAction="#initTraversalMode" prefHeight="30.0" prefWidth="152.0" styleClass="order-btn" text="* Внутренний обход" toggleGroup="$orders" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="110.0" />
                                 </AnchorPane>
                             </TitledPane>
                         </VBox>
@@ -105,7 +105,7 @@
         </AnchorPane>
         <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="106.0" prefWidth="600.0" style="-fx-background-color: #403940;" SplitPane.resizableWithParent="false">
             <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <TextFlow prefHeight="200.0" prefWidth="636.0" styleClass="console">
+                <TextFlow fx:id="console" prefHeight="200.0" prefWidth="636.0" styleClass="console">
                     <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&gt; Прямой обход:     " />
                     <Text fx:id="preOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-out" />
                     <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&#10;&gt; Обратный обход:   " />

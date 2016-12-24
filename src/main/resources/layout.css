@@ -205,6 +205,10 @@
     -fx-fill: cadetblue;
 }
 
+.console-out-selected {
+    -fx-fill: gold;
+}
+
 .cell {
     -fx-font: 14px "Consolas";
     -fx-background-radius: 100%;

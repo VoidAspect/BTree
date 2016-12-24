@@ -20,7 +20,7 @@ final class Leaf<T extends Comparable<T>> extends NonEmptyTree<T> {
     }
 
     @Override
-    ImmutableBinaryTree<T> cut() {
+    protected ImmutableBinaryTree<T> cut() {
         return EmptyTree.instance();
     }
 

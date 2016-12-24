@@ -35,6 +35,11 @@ final class EmptyTree <T extends Comparable<T>> extends ImmutableBinaryTree<T> {
     }
 
     @Override
+    protected ImmutableBinaryTree<T> cut() {
+        return this;
+    }
+
+    @Override
     public ImmutableBinaryTree<T> left() {
         return this;
     }
