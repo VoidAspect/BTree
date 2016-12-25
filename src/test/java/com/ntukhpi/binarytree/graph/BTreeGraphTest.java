@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 /**
  * @author ALexander Gorbunov
  */
-public class BTreeGraphTest {
+public class BTreeGraphTest { //todo more tests
 
     @Test
     public void testTreeGraphConsistency() {

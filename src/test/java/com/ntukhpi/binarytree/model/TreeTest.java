@@ -59,7 +59,6 @@ public class TreeTest {
     public void testNull() throws Exception {
         Tree<Integer> tree = FACTORY.immutableTree(1, 2, 3);
 
-
         assertEquals(tree, tree.insert(null));
         assertEquals(tree, tree.remove(null));
         assertFalse(tree.contains(null));
@@ -118,7 +117,9 @@ public class TreeTest {
 
     @Test
     public void testInsert() throws Exception {
-        assertEquals(FACTORY.immutableTree(2, 1), FACTORY.immutableTree(2).insert(1));
+        ImmutableBinaryTree<Integer> binaryTree = FACTORY.immutableTree(2).insert(1);
+        assertEquals(FACTORY.immutableTree(2, 1), binaryTree);
+        assertEquals("((_ 1 _) 2 _)", binaryTree.toString());
     }
 
     @Test
@@ -135,11 +136,19 @@ public class TreeTest {
                 FACTORY.immutableTree(7, 10, 8, 12, 5));
 
         tree = FACTORY.immutableTree(10, 9, 8, 7, 12, 41);
-
         while (!tree.isEmpty()) { //test for root-cutting fix
             tree = tree.cut();
             System.out.println("STRUCTURE: " + tree);
             System.out.println("CLASS:     " + tree.getClass().getName());
+            if (tree instanceof DualBranch) {
+                assertFalse(tree.right().isEmpty());
+                assertFalse(tree.left().isEmpty());
+            } else if (tree instanceof Leaf) {
+                assertTrue(tree.right().isEmpty());
+                assertTrue(tree.left().isEmpty());
+            } else if (tree instanceof SingleBranch) {
+                assertFalse(((SingleBranch) tree).getChild().isEmpty());
+            }
         }
 
     }
@@ -159,13 +168,13 @@ public class TreeTest {
 
     @Test
     public void testBalance() {
-        Integer[] vals = {5, 4, 3, 2, 1, 6, 7, 8, 9};
-        ImmutableBinaryTree<Integer> tree = FACTORY.immutableTree(vals);
+        Integer[] values = {5, 4, 3, 2, 1, 6, 7, 8, 9};
+        ImmutableBinaryTree<Integer> tree = FACTORY.immutableTree(values);
 
         Object[] preOrder = tree.traverse(Traversal.PRE_ORDER).toArray();
-        assertArrayEquals(vals, preOrder);
+        assertArrayEquals(values, preOrder);
 
-        ImmutableBinaryTree<Integer> balancedTree = FACTORY.balancedTree(vals);
+        ImmutableBinaryTree<Integer> balancedTree = FACTORY.balancedTree(values);
 
         String printedTree = balancedTree.toString();
         System.out.println(printedTree);
@@ -179,9 +188,7 @@ public class TreeTest {
         assertEquals(2, FACTORY.balancedTree(3, 2, 1).height());
         assertEquals(1, FACTORY.balancedTree(1).height());
         assertEquals(0, FACTORY.immutableTree().height());
-        ImmutableBinaryTree<Integer> tree = FACTORY.immutableTree(84, 12, -14, -972, 44, 32, 45, 56, 374, 321, 132, 906);
-        System.out.println(tree.toString());
-        assertEquals(5, tree.height());
+        assertEquals(5, FACTORY.immutableTree(84, 12, -14, -972, 44, 32, 45, 56, 374, 321, 132, 906).height());
     }
 
 }

@@ -11,6 +11,7 @@ public final class TreeFactory {
 
     /**
      * Метод инициализации пустого дерева.
+     *
      * @param <U> тип-параметр значений, которые будут хранится в дереве.
      * @return новое пустое дерево.
      */
@@ -24,7 +25,7 @@ public final class TreeFactory {
      * <br>Сбалансированность полученного дерева не гарантируется.
      *
      * @param elems массив значений.
-     * @param <U> тип-параметр значений, которые будут хранится в дереве.
+     * @param <U>   тип-параметр значений, которые будут хранится в дереве.
      * @return новое дерево с переданными значениями в вершинах.
      */
     @SafeVarargs
@@ -42,8 +43,9 @@ public final class TreeFactory {
      * <br>Сбалансированность полученного дерева гарантируется.
      *
      * @param elems массив значений.
-     * @param <U> тип-параметр значений, которые будут хранится в дереве.
+     * @param <U>   тип-параметр значений, которые будут хранится в дереве.
      * @return новое сбалансированное дерево с переданными значениями в вершинах.
+     * @see TreeFactory#populateTree(List)
      */
     @SafeVarargs
     public final <U extends Comparable<U>> ImmutableBinaryTree<U> balancedTree(final U... elems) {
@@ -59,10 +61,10 @@ public final class TreeFactory {
      * - в корень правого и левого поддеревьев и.т.п., пока не иссякнут значения в списке.
      *
      * @param elems отсортированный список значений
-     * @param <U> тип-параметр значений, которые будут хранится в дереве.
+     * @param <U>   тип-параметр значений, которые будут хранится в дереве.
      * @return новое сбалансированное дерево с переданными значениями в вершинах.
      */
-    private <U extends Comparable<U>>ImmutableBinaryTree<U> populateTree(List<U> elems) {
+    private <U extends Comparable<U>> ImmutableBinaryTree<U> populateTree(List<U> elems) {
         if (elems.isEmpty()) return immutableTree();
 
         ImmutableBinaryTree<U> tree = immutableTree();
