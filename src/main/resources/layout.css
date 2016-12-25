@@ -225,4 +225,5 @@
 
 .cell-selected {
     -fx-background-color: #9999ff;
+    -fx-border-color: #551111;
 }

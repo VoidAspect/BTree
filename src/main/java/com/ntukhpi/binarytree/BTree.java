@@ -16,7 +16,7 @@ public class BTree extends Application {
 
     private static final int MIN_WIDTH = 300;
 
-    private static final Image ICON = new Image(BTree.class.getResourceAsStream("/christmas-tree.png"));
+    private static final Image ICON = new Image(BTree.class.getResourceAsStream("/icon.png"));
 
     private static final String TITLE = "Binary Tree Demo";
 
@@ -26,7 +26,6 @@ public class BTree extends Application {
 
         Scene scene = new Scene(root);
 
-//        primaryStage.initStyle(StageStyle.UNIFIED);
         primaryStage.setTitle(TITLE);
         primaryStage.getIcons().add(ICON);
         primaryStage.setMinHeight(MIN_HEIGHT);

@@ -107,11 +107,6 @@ public class BTreeGraph {
         getSelected().ifPresent(selected -> removeNode(Integer.parseInt(selected.getText())));
     }
 
-    public void removeNode(int value) {
-        update(value, () -> tree = tree.remove(value));
-        draw();
-    }
-
     public void mutateNode(int newValue) {
         getSelected().ifPresent(selected -> {
             int oldValue = Integer.parseInt(selected.getText());
@@ -168,6 +163,11 @@ public class BTreeGraph {
 
     private Optional<Label> getSelected() {
         return Optional.ofNullable((Label) cells.lookup('.' + CELL_SELECTED_STYLE.getStyleClass()));
+    }
+
+    private void removeNode(int value) {
+        update(value, () -> tree = tree.remove(value));
+        draw();
     }
 
     private void draw() {

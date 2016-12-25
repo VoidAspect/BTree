@@ -136,7 +136,7 @@ public class TreeTest {
 
         tree = FACTORY.immutableTree(10, 9, 8, 7, 12, 41);
 
-        while (!tree.isEmpty()) {
+        while (!tree.isEmpty()) { //test for root-cutting fix
             tree = tree.cut();
             System.out.println("STRUCTURE: " + tree);
             System.out.println("CLASS:     " + tree.getClass().getName());
