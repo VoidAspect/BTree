@@ -22,7 +22,7 @@ import static com.ntukhpi.binarytree.graph.Style.CELL_STYLE;
  * <br>Состоит из ячеек ({@link BTreeGraph#cells}) и ребер ({@link BTreeGraph#vertices}),
  * доступ к которым реализован через общую группу ({@link BTreeGraph#content})
  * <br>Рендеринг контентов должен происходить при каждом изменении модели данных {@link BTreeGraph#tree}
- * <br>Обновления осуществляются асинхронно.
+ * <br>Обновления осуществляются синхронно.
  *
  * @author Alexander Gorbunov
  */
@@ -91,14 +91,14 @@ public class BTreeGraph {
      * @return результат поиска: найден/не найден.
      */
     public boolean findNode(int value) {
-        return update(value, () ->
-                Optional.ofNullable(cells.lookup("#" + value))
-                        .ifPresent(label -> selectCell((Label) label)));
+        Optional.ofNullable(cells.lookup("#" + value))
+            .ifPresent(label -> selectCell((Label) label));
+        return tree.contains(value);
     }
 
     //todo COMMENTS FOR EVERYTHING
     public void addNode(int value) {
-        update(() -> tree = tree.insert(value));
+        tree = tree.insert(value);
         draw();
         findNode(value);
     }
@@ -109,14 +109,13 @@ public class BTreeGraph {
 
     public void mutateNode(int newValue) {
         getSelected().ifPresent(selected -> {
-            int oldValue = Integer.parseInt(selected.getText());
-            update(oldValue, () -> {
-                Integer[] nodes = tree.traverse(Traversal.PRE_ORDER).stream()
+            int oldValue = Integer.parseInt(selected.getId());
+            if (tree.contains(oldValue)) {
+                tree = TREE_FACTORY.immutableTree(tree.traverse(Traversal.PRE_ORDER).stream()
                         .map(e -> (e == oldValue) ? newValue : e)
-                        .toArray(Integer[]::new);
-                tree = TREE_FACTORY.immutableTree(nodes);
-            });
-            draw();
+                        .toArray(Integer[]::new));
+                draw();
+            }
         });
     }
 
@@ -166,20 +165,20 @@ public class BTreeGraph {
     }
 
     private void removeNode(int value) {
-        update(value, () -> tree = tree.remove(value));
-        draw();
+        if (tree.contains(value)) {
+            tree = tree.remove(value);
+            draw();
+        }
     }
 
     private void draw() {
         scrap();
-        update(() -> displayNodes((NavigableTree<Integer>) tree));
+        displayNodes((NavigableTree<Integer>) tree);
     }
 
     private void scrap() {
-        update(() -> {
-            cells.getChildren().clear();
-            vertices.getChildren().clear();
-        });
+        cells.getChildren().clear();
+        vertices.getChildren().clear();
     }
 
     private void displayNodes(NavigableTree<Integer> tree) {
@@ -233,18 +232,6 @@ public class BTreeGraph {
 
     }
 
-    private void update(Runnable update) {
-        update.run();
-    }
-
-    private boolean update(int value, Runnable update) {
-        boolean contains = tree.contains(value);
-        if (contains) {
-            update(update);
-        }
-        return contains;
-    }
-
     private void drawCell(int value, double x, double y) {
         String text = String.valueOf(value);
         Label cell = new Label(text);
@@ -282,16 +269,14 @@ public class BTreeGraph {
     }
 
     private void selectCell(Label cell, boolean unselectable) {
-        update(() -> {
-            ObservableList<String> styleClass = cell.getStyleClass();
-            String selected = CELL_SELECTED_STYLE.getStyleClass();
-            if (!styleClass.contains(selected)) {
-                getSelected().ifPresent(label -> label.getStyleClass().remove(selected));
-                styleClass.add(selected);
-            } else if (unselectable) {
-                styleClass.remove(selected);
-            }
-        });
+        ObservableList<String> styleClass = cell.getStyleClass();
+        String selected = CELL_SELECTED_STYLE.getStyleClass();
+        if (!styleClass.contains(selected)) {
+            getSelected().ifPresent(label -> label.getStyleClass().remove(selected));
+            styleClass.add(selected);
+        } else if (unselectable) {
+            styleClass.remove(selected);
+        }
     }
 
     public Group getContent() {

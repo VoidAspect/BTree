@@ -18,7 +18,7 @@ public class BTree extends Application {
 
     private static final Image ICON = new Image(BTree.class.getResourceAsStream("/icon.png"));
 
-    private static final String TITLE = "Binary Tree Demo";
+    private static final String TITLE = "Binary Search Tree";
 
     @Override
     public void start(Stage primaryStage) throws Exception {
