@@ -337,7 +337,7 @@ public class LayoutController implements Initializable {
         }
         lightUpText(text);
         cellNumberMap.clear();
-        cellNumberMap.putAll(mapArrayValsToPositions(cellValues));
+        cellNumberMap.putAll(mapArrayValuesToPositions(cellValues));
         animation.jumpTo(Duration.ZERO);
     }
 
@@ -401,13 +401,13 @@ public class LayoutController implements Initializable {
      * Утилитарный статический метод для создания структуры данных,
      * соответствующей спецификации {@link LayoutController#cellNumberMap}
      *
-     * @param vals массив значений
+     * @param values массив значений
      * @param <T> тип-аргумент, представляющий собой любой сравниваемый с самим собой тип.
      *
      * @return карту с ключами - индексами значений массива и значениям - соотвевтсятвующими значениями элементов массива.
      */
-    private static <T extends Comparable<T>> Map<Integer, T> mapArrayValsToPositions(T[] vals) {
-        List<T> asList = Arrays.asList(vals);
+    private static <T extends Comparable<T>> Map<Integer, T> mapArrayValuesToPositions(T[] values) {
+        List<T> asList = Arrays.asList(values);
         return asList.stream().collect(Collectors.toMap(asList::indexOf, Function.identity()));
     }
 }

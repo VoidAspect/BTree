@@ -19,7 +19,7 @@ import static com.ntukhpi.binarytree.graph.Style.CELL_STYLE;
 /**
  * Графическое представление бинарного дерева, основанное на элементах JavaFX.
  * <br>Может быть вставлен в любую внешнюю панель. Инкапсулирует все изменения модели данных.
- * <br>Состоит из ячеек ({@link BTreeGraph#cells}) и ребер ({@link BTreeGraph#vertices}),
+ * <br>Состоит из ячеек ({@link BTreeGraph#cells}) и ребер ({@link BTreeGraph#vertexes}),
  * доступ к которым реализован через общую группу ({@link BTreeGraph#content})
  * <br>Рендеринг контентов должен происходить при каждом изменении модели данных {@link BTreeGraph#tree}
  * <br>Обновления осуществляются синхронно.
@@ -52,10 +52,10 @@ public class BTreeGraph {
     /**
      * Ребра - группа ребер графа, представленных {@link Line}.
      */
-    private final Group vertices;
+    private final Group vertexes;
 
     /**
-     * Общая группа визуальных компонентов, образованная наложением {@link BTreeGraph#cells} на {@link BTreeGraph#vertices}.
+     * Общая группа визуальных компонентов, образованная наложением {@link BTreeGraph#cells} на {@link BTreeGraph#vertexes}.
      */
     private final Group content;
 
@@ -73,8 +73,8 @@ public class BTreeGraph {
      */
     public BTreeGraph() {
         cells = new Group();
-        vertices = new Group();
-        content = new Group(vertices, cells);
+        vertexes = new Group();
+        content = new Group(vertexes, cells);
         tree = TREE_FACTORY.immutableTree();
     }
 
@@ -252,7 +252,7 @@ public class BTreeGraph {
      */
     private void scrap() {
         cells.getChildren().clear();
-        vertices.getChildren().clear();
+        vertexes.getChildren().clear();
     }
 
     /**
@@ -321,11 +321,11 @@ public class BTreeGraph {
             Optional<Integer> right = rightBranch.getRoot();
             Optional<Integer> left = leftBranch.getRoot();
             if (right.isPresent()) {
-                drawVertice(rootVal, right.get());
+                drawVertex(rootVal, right.get());
                 drawVertices(rightBranch);
             }
             if (left.isPresent()) {
-                drawVertice(rootVal, left.get());
+                drawVertex(rootVal, left.get());
                 drawVertices(leftBranch);
             }
         }
@@ -335,7 +335,7 @@ public class BTreeGraph {
     /**
      * Метод отрисовки вершины графа в указанной позиции.
      *
-     * @param value значение в новой вершине.
+     * @param value    значение в новой вершине.
      * @param position позиция новой вершины.
      * @see Position
      */
@@ -368,21 +368,21 @@ public class BTreeGraph {
      * Метод отрисовки ребра графа между двумя его вершинами с указанными значениями.
      *
      * @param start значение в первой вершине
-     * @param end значение во второй вершине.
+     * @param end   значение во второй вершине.
      */
-    private void drawVertice(int start, int end) {
+    private void drawVertex(int start, int end) {
         Label firstCell = (Label) cells.lookup("#" + start);
         if (firstCell == null) throw new IllegalStateException();
 
         Label secondCell = (Label) cells.lookup("#" + end);
         if (secondCell == null) throw new IllegalStateException();
 
-        Line vertice = new Line();
-        vertice.startXProperty().bind(firstCell.layoutXProperty().add(CELL_RADIUS));
-        vertice.startYProperty().bind(firstCell.layoutYProperty().add(CELL_RADIUS));
-        vertice.endXProperty().bind(secondCell.layoutXProperty().add(CELL_RADIUS));
-        vertice.endYProperty().bind(secondCell.layoutYProperty().add(CELL_RADIUS));
-        vertices.getChildren().add(vertice);
+        Line vertex = new Line();
+        vertex.startXProperty().bind(firstCell.layoutXProperty().add(CELL_RADIUS));
+        vertex.startYProperty().bind(firstCell.layoutYProperty().add(CELL_RADIUS));
+        vertex.endXProperty().bind(secondCell.layoutXProperty().add(CELL_RADIUS));
+        vertex.endYProperty().bind(secondCell.layoutYProperty().add(CELL_RADIUS));
+        vertexes.getChildren().add(vertex);
     }
 
     /**

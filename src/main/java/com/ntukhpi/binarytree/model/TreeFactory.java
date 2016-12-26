@@ -24,14 +24,14 @@ public final class TreeFactory {
      * <br>Значения добавляются в дерево в том порядке, в котором они переданы в метод.
      * <br>Сбалансированность полученного дерева не гарантируется.
      *
-     * @param elems массив значений.
-     * @param <U>   тип-параметр значений, которые будут хранится в дереве.
+     * @param elements массив значений.
+     * @param <U>      тип-параметр значений, которые будут хранится в дереве.
      * @return новое дерево с переданными значениями в вершинах.
      */
     @SafeVarargs
-    public final <U extends Comparable<U>> ImmutableBinaryTree<U> immutableTree(final U... elems) {
+    public final <U extends Comparable<U>> ImmutableBinaryTree<U> immutableTree(final U... elements) {
         ImmutableBinaryTree<U> tree = immutableTree();
-        for (U elem : elems) {
+        for (U elem : elements) {
             tree = tree.insert(elem);
         }
         return tree;
@@ -42,14 +42,14 @@ public final class TreeFactory {
      * <br>Значения сортируются и добавляются в дерево через метод {@link TreeFactory#populateTree(List)}
      * <br>Сбалансированность полученного дерева гарантируется.
      *
-     * @param elems массив значений.
-     * @param <U>   тип-параметр значений, которые будут хранится в дереве.
+     * @param elements массив значений.
+     * @param <U>      тип-параметр значений, которые будут хранится в дереве.
      * @return новое сбалансированное дерево с переданными значениями в вершинах.
      * @see TreeFactory#populateTree(List)
      */
     @SafeVarargs
-    public final <U extends Comparable<U>> ImmutableBinaryTree<U> balancedTree(final U... elems) {
-        List<U> asList = Arrays.asList(elems);
+    public final <U extends Comparable<U>> ImmutableBinaryTree<U> balancedTree(final U... elements) {
+        List<U> asList = Arrays.asList(elements);
         asList.sort(Comparator.naturalOrder());
         return populateTree(asList);
     }
@@ -60,19 +60,19 @@ public final class TreeFactory {
      * и рекурсивно добавляет в него среднее значение списка, потом среднее значение каждой из половин списка
      * - в корень правого и левого поддеревьев и.т.п., пока не иссякнут значения в списке.
      *
-     * @param elems отсортированный список значений
-     * @param <U>   тип-параметр значений, которые будут хранится в дереве.
+     * @param elements отсортированный список значений
+     * @param <U>      тип-параметр значений, которые будут хранится в дереве.
      * @return новое сбалансированное дерево с переданными значениями в вершинах.
      */
-    private <U extends Comparable<U>> ImmutableBinaryTree<U> populateTree(List<U> elems) {
-        if (elems.isEmpty()) return immutableTree();
+    private <U extends Comparable<U>> ImmutableBinaryTree<U> populateTree(List<U> elements) {
+        if (elements.isEmpty()) return immutableTree();
 
         ImmutableBinaryTree<U> tree = immutableTree();
 
-        int mid = elems.size() / 2;
-        tree = tree.insert(elems.get(mid));
-        tree = tree.insertAll(populateTree(elems.subList(0, mid)));
-        tree = tree.insertAll(populateTree(elems.subList(mid + 1, elems.size())));
+        int mid = elements.size() / 2;
+        tree = tree.insert(elements.get(mid));
+        tree = tree.insertAll(populateTree(elements.subList(0, mid)));
+        tree = tree.insertAll(populateTree(elements.subList(mid + 1, elements.size())));
         return tree;
     }
 
