@@ -25,6 +25,7 @@
 .menu {
     -fx-font: 16px "Consolas";
     -fx-background-color: transparent;
+    -fx-text-fill: black;
 }
 
 .menu .label {
@@ -33,6 +34,9 @@
 
 .menu .label:hover {
     -fx-text-fill: white;
+}
+.menu-item:focused .label {
+    -fx-text-fill: black;
 }
 
 .controls {
