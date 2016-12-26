@@ -76,7 +76,7 @@
                               <String fx:value="control-btn-left" />
                            </styleClass></Button>
                             </AnchorPane>
-                            <TitledPane animated="false" maxHeight="1.7976931348623157E308" prefWidth="180.0" text="Анимация" VBox.vgrow="ALWAYS">
+                            <TitledPane fx:id="animationPane" animated="false" maxHeight="1.7976931348623157E308" prefWidth="180.0" text="Анимация" VBox.vgrow="ALWAYS">
                                 <padding>
                                     <Insets left="3.0" />
                                 </padding>

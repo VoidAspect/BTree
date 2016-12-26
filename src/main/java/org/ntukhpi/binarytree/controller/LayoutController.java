@@ -2,7 +2,6 @@ package org.ntukhpi.binarytree.controller;
 
 import org.ntukhpi.binarytree.graph.BTreeGraph;
 import org.ntukhpi.binarytree.graph.Style;
-import org.ntukhpi.binarytree.model.Traversal;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -30,6 +29,7 @@ import java.util.stream.Collectors;
  * Контроллер элементов раскладки "layout.fxml", отображаемых на основном окне.
  * <br>Инкапсулирует обработку действий пользователя, содержит и управляет визуальным представлением
  * дерева - обьектом класса {@link BTreeGraph}.
+ *
  * @author Alexander Gorbunov
  */
 public class LayoutController implements Initializable {
@@ -45,12 +45,12 @@ public class LayoutController implements Initializable {
     private static final int UPPER_BOUND_RANDOM = 1000;
 
     /**
-     * Нижняя граница (не включительно) генерации случайных чисел.
+     * Нижняя граница (включительно) генерации случайных чисел.
      */
     private static final int LOWER_BOUND_RANDOM = -999;
 
     /**
-     * Разделитель " -> " для конкатенации строк при составлении сообщения об обходе в методе {@link BTreeGraph#getTraversal(Traversal)}.
+     * Разделитель " => " для конкатенации строк при составлении сообщения об обходе в методе {@link LayoutController#updateTraversal()} )}.
      */
     private static final Collector<CharSequence, ?, String> TRAVERSAL_ORDER_ARROW = Collectors.joining(" => ");
 
@@ -66,8 +66,8 @@ public class LayoutController implements Initializable {
 
     /**
      * Карта номеров-значений вершин графа.
-     * Ключ - номер вершины при текущем обходе
-     * Значение - число, записанное в вершине с данным номером
+     * <br>Ключ - номер вершины при текущем обходе.
+     * <br>Значение - число, записанное в вершине с данным номером
      */
     private final NavigableMap<Integer, Integer> cellNumberMap = new TreeMap<>();
 
@@ -75,7 +75,7 @@ public class LayoutController implements Initializable {
      * Обьект управления анимацией.
      * <br>Реализован таким образом, что производит поиск элементов
      * на визуальном отображении дерева в порядке обхода,
-     * выбирая новый элемент каждые 0.5. секунд.
+     * выбирая новый элемент каждые 0.5 секунд.
      * Когда элементы, задекларированные в {@link LayoutController#cellNumberMap} заканчиваются,
      * вызывает метод {@link LayoutController#stop()}
      */
@@ -99,6 +99,8 @@ public class LayoutController implements Initializable {
 
     /* Animation controls */
 
+    @FXML
+    private TitledPane animationPane;
     @FXML
     private ToggleGroup orders;
     @FXML
@@ -262,8 +264,8 @@ public class LayoutController implements Initializable {
      * Общий обработчик событий клавиатуры.
      * <br>По кнопке ENTER - принимает значение из поля ввода.
      * <br>Если такое значение есть на дереве - выделяет ячейку,
-     * иначе добавляет и ввыделяет новую.
-     * <br>По кнопке DELETE - удаляет віделенную ячейку.
+     * иначе добавляет и выделяет новую.
+     * <br>По кнопке DELETE - удаляет выделенную ячейку.
      *
      * @param keyEvent событие нажатия на кнопку клавиатуры.
      */
@@ -344,7 +346,7 @@ public class LayoutController implements Initializable {
     /**
      * Подсветить текст.
      *
-     * @param text визуальній компонент "текст".
+     * @param text визуальный компонент "текст".
      */
     private void lightUpText(Text text) {
         console.getChildren().forEach(node -> node.getStyleClass().
@@ -352,13 +354,19 @@ public class LayoutController implements Initializable {
         text.getStyleClass().add(Style.CONSOLE_OUT_SELECTED.getStyleClass());
     }
 
+    /**
+     * Метод для отключения и включения кнопок боковой панели.
+     * Используется при запуске и остановке анимации.
+     *
+     * @param disable если true, то отключить кнопки боковой панели управления.
+     *                Если false - то включить их.
+     */
     private void disableControls(boolean disable) {
-        Set<Node> controls = sideBar.lookupAll(".button")
-                .stream()
+        Set<Node> controls = sideBar.getChildren().stream()
                 .filter(node -> !node.getStyleClass().contains(Style.ANIMATION_BUTTON.getStyleClass()))
+                .filter(node -> !node.equals(animationPane))
                 .collect(Collectors.toSet());
         controls.forEach(node -> node.setDisable(disable));
-        orders.getToggles().forEach(toggle -> ((Node) toggle).setDisable(disable));
     }
 
     /**
@@ -380,6 +388,7 @@ public class LayoutController implements Initializable {
 
     /**
      * Проверить наличие целого числа в поле ввода и вернуть его внутри контейнера Optional.
+     *
      * @return Optional, возможно содержащий целое число.
      */
     private Optional<Integer> getInput() {
@@ -402,9 +411,8 @@ public class LayoutController implements Initializable {
      * соответствующей спецификации {@link LayoutController#cellNumberMap}
      *
      * @param values массив значений
-     * @param <T> тип-аргумент, представляющий собой любой сравниваемый с самим собой тип.
-     *
-     * @return карту с ключами - индексами значений массива и значениям - соотвевтсятвующими значениями элементов массива.
+     * @param <T>    тип-аргумент, представляющий собой любой сравниваемый с самим собой тип.
+     * @return карту с ключами - индексами значений массива и значениями - соответствующими значениями элементов массива.
      */
     private static <T extends Comparable<T>> Map<Integer, T> mapArrayValuesToPositions(T[] values) {
         List<T> asList = Arrays.asList(values);
