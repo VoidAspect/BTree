@@ -20,98 +20,169 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="570.0" prefWidth="700.0" stylesheets="layout.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ntukhpi.binarytree.controller.LayoutController">
-    <MenuBar layoutY="-84.0" prefHeight="31.0" prefWidth="700.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            onKeyPressed="#onKeyPressed" prefHeight="570.0" prefWidth="700.0" stylesheets="layout.css"
+            xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.ntukhpi.binarytree.controller.LayoutController">
+    <MenuBar layoutY="-84.0" prefHeight="31.0" prefWidth="700.0" AnchorPane.leftAnchor="0.0"
+             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
+            <MenuItem mnemonicParsing="false" onAction="#close" text="Close"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
-            <MenuItem mnemonicParsing="false" onAction="#clean" text="Clean" />
+            <MenuItem mnemonicParsing="false" onAction="#clean" text="Clean"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-            <MenuItem mnemonicParsing="false" text="About" />
+            <MenuItem mnemonicParsing="false" text="About"/>
         </Menu>
     </MenuBar>
-    <SplitPane dividerPositions="0.7" layoutY="186.0" orientation="VERTICAL" prefHeight="375.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+    <SplitPane dividerPositions="0.7" layoutY="186.0" orientation="VERTICAL" prefHeight="375.0" prefWidth="600.0"
+               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+               AnchorPane.topAnchor="35.0">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="230.0" prefWidth="600.0">
-            <BorderPane fx:id="workSpace" layoutX="14.0" layoutY="26.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #aa9999;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <BorderPane fx:id="workSpace" layoutX="14.0" layoutY="26.0" prefHeight="200.0" prefWidth="200.0"
+                        style="-fx-background-color: #aa9999;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                        AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <center>
-                    <ScrollPane fx:id="viewArea" fitToHeight="true" fitToWidth="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="251.0" prefWidth="388.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+                    <ScrollPane fx:id="viewArea" fitToHeight="true" fitToWidth="true" nodeOrientation="LEFT_TO_RIGHT"
+                                prefHeight="251.0" prefWidth="388.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
                         <FlowPane fx:id="board" alignment="TOP_CENTER" prefHeight="240.0" prefWidth="370.0">
                             <padding>
-                                <Insets bottom="5.0" left="10.0" right="10.0" top="20.0" />
+                                <Insets bottom="5.0" left="10.0" right="10.0" top="20.0"/>
                             </padding>
                         </FlowPane>
                     </ScrollPane>
                 </center>
                 <left>
                     <AnchorPane fx:id="rightControlGroup" BorderPane.alignment="CENTER">
-                        <VBox fx:id="sideBar" layoutX="27.0" layoutY="14.0" prefHeight="250.0" prefWidth="180.0" styleClass="controls" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox fx:id="sideBar" layoutX="27.0" layoutY="14.0" prefHeight="250.0" prefWidth="180.0"
+                              styleClass="controls" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0"
+                              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <AnchorPane prefHeight="35.0" prefWidth="171.0">
-                                <TextField fx:id="input" layoutX="34.0" prefHeight="35.0" prefWidth="134.0" promptText="⌕ Поиск | Ввод" styleClass="search" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                <TextField fx:id="input" layoutX="34.0" prefHeight="35.0" prefWidth="134.0"
+                                           promptText="⌕ Поиск | Ввод" styleClass="search" AnchorPane.bottomAnchor="0.0"
+                                           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                           AnchorPane.topAnchor="0.0"/>
                             </AnchorPane>
                             <AnchorPane prefWidth="180.0">
-                                <Button id="swap-node-btn" layoutY="84.0" mnemonicParsing="false" onAction="#mutate" text="▶ Мутировать" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
-                           <styleClass>
-                              <String fx:value="control-btn" />
-                              <String fx:value="control-btn-left" />
-                           </styleClass></Button>
-                                <Button id="add-node-btn" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#insert" prefWidth="90.0" styleClass="control-btn" text="+" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="0.0" />
-                                <Button id="drop-node-btn" layoutX="65.0" layoutY="15.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#remove" prefHeight="42.0" prefWidth="90.0" styleClass="control-btn" text="-" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                <Button id="min-btn" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#findMin" prefWidth="90.0" styleClass="control-btn" text="min" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="30.0" />
-                                <Button id="max-btn" layoutX="10.0" layoutY="60.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#findMax" prefWidth="90.0" styleClass="control-btn" text="max" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
-                                <Button id="balance-btn" mnemonicParsing="false" onAction="#balance" text="▶ Баланс" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
-                           <styleClass>
-                              <String fx:value="control-btn" />
-                              <String fx:value="control-btn-left" />
-                           </styleClass></Button>
-                                <Button id="clean-btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#clean" text="▶ Очистка" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
-                           <styleClass>
-                              <String fx:value="control-btn" />
-                              <String fx:value="control-btn-left" />
-                           </styleClass></Button>
-                                <Button id="random-btn" mnemonicParsing="false" onAction="#insertRandom" text="▶ Случайный" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
-                           <styleClass>
-                              <String fx:value="control-btn" />
-                              <String fx:value="control-btn-left" />
-                           </styleClass></Button>
+                                <Button id="swap-node-btn" layoutY="84.0" mnemonicParsing="false" onAction="#mutate"
+                                        text="▶ Мутировать" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                        AnchorPane.topAnchor="60.0">
+                                    <styleClass>
+                                        <String fx:value="control-btn"/>
+                                        <String fx:value="control-btn-left"/>
+                                    </styleClass>
+                                </Button>
+                                <Button id="add-node-btn" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity"
+                                        mnemonicParsing="false" onAction="#insert" prefWidth="90.0"
+                                        styleClass="control-btn" text="+" AnchorPane.leftAnchor="0.0"
+                                        AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="0.0"/>
+                                <Button id="drop-node-btn" layoutX="65.0" layoutY="15.0" minHeight="-Infinity"
+                                        minWidth="-Infinity" mnemonicParsing="false" onAction="#remove"
+                                        prefHeight="42.0" prefWidth="90.0" styleClass="control-btn" text="-"
+                                        AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="0.0"
+                                        AnchorPane.topAnchor="0.0"/>
+                                <Button id="min-btn" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity"
+                                        mnemonicParsing="false" onAction="#findMin" prefWidth="90.0"
+                                        styleClass="control-btn" text="min" AnchorPane.leftAnchor="0.0"
+                                        AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="30.0"/>
+                                <Button id="max-btn" layoutX="10.0" layoutY="60.0" minHeight="-Infinity"
+                                        minWidth="-Infinity" mnemonicParsing="false" onAction="#findMax"
+                                        prefWidth="90.0" styleClass="control-btn" text="max"
+                                        AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="0.0"
+                                        AnchorPane.topAnchor="30.0"/>
+                                <Button id="balance-btn" mnemonicParsing="false" onAction="#balance" text="▶ Баланс"
+                                        AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                        AnchorPane.topAnchor="120.0">
+                                    <styleClass>
+                                        <String fx:value="control-btn"/>
+                                        <String fx:value="control-btn-left"/>
+                                    </styleClass>
+                                </Button>
+                                <Button id="clean-btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
+                                        onAction="#clean" text="▶ Очистка" AnchorPane.leftAnchor="0.0"
+                                        AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
+                                    <styleClass>
+                                        <String fx:value="control-btn"/>
+                                        <String fx:value="control-btn-left"/>
+                                    </styleClass>
+                                </Button>
+                                <Button id="random-btn" mnemonicParsing="false" onAction="#insertRandom"
+                                        text="▶ Случайный" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                        AnchorPane.topAnchor="90.0">
+                                    <styleClass>
+                                        <String fx:value="control-btn"/>
+                                        <String fx:value="control-btn-left"/>
+                                    </styleClass>
+                                </Button>
                             </AnchorPane>
-                            <TitledPane fx:id="animationPane" animated="false" maxHeight="1.7976931348623157E308" prefWidth="180.0" text="Анимация" VBox.vgrow="ALWAYS">
+                            <TitledPane fx:id="animationPane" animated="false" maxHeight="1.7976931348623157E308"
+                                        prefWidth="180.0" text="Анимация" VBox.vgrow="ALWAYS">
                                 <padding>
-                                    <Insets left="3.0" />
+                                    <Insets left="3.0"/>
                                 </padding>
-                                <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="178.0">
-                                    <Button id="play" layoutX="25.8" layoutY="25.8" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="30.0" styleClass="animation-btn" text="&gt;" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
-                                    <Button id="pause" layoutX="72.0" layoutY="13.0" mnemonicParsing="false" onAction="#pause" prefHeight="30.0" styleClass="animation-btn" text="||" AnchorPane.topAnchor="0.0" />
-                                    <Button id="stop" layoutX="103.0" layoutY="35.8" mnemonicParsing="false" onAction="#stop" prefHeight="30.0" styleClass="animation-btn" text="■" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0" />
-                           <ToggleButton fx:id="togglePreOrder" layoutX="25.0" layoutY="72.0" mnemonicParsing="false" onAction="#initTraversalMode" selected="true" styleClass="order-btn" text="* Прямой обход" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="60.0">
-                              <toggleGroup>
-                                 <ToggleGroup fx:id="orders" />
-                              </toggleGroup>
-                           </ToggleButton>
-                           <ToggleButton fx:id="togglePostOrder" layoutX="26.0" layoutY="102.0" mnemonicParsing="false" onAction="#initTraversalMode" styleClass="order-btn" text="* Обратный обход" toggleGroup="$orders" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="85.0" />
-                           <ToggleButton fx:id="toggleInOrder" layoutX="14.0" layoutY="132.0" mnemonicParsing="false" onAction="#initTraversalMode" prefHeight="30.0" prefWidth="152.0" styleClass="order-btn" text="* Внутренний обход" toggleGroup="$orders" AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="110.0" />
+                                <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="0.0"
+                                            minWidth="0.0" prefHeight="70.0" prefWidth="178.0">
+                                    <Button id="play" layoutX="25.8" layoutY="25.8" maxWidth="-Infinity"
+                                            minWidth="-Infinity" mnemonicParsing="false" onAction="#play"
+                                            prefHeight="30.0" prefWidth="30.0" styleClass="animation-btn" text="&gt;"
+                                            AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0"/>
+                                    <Button id="pause" layoutX="72.0" layoutY="13.0" mnemonicParsing="false"
+                                            onAction="#pause" prefHeight="30.0" styleClass="animation-btn" text="||"
+                                            AnchorPane.topAnchor="5.0"/>
+                                    <Button id="stop" layoutX="103.0" layoutY="35.8" mnemonicParsing="false"
+                                            onAction="#stop" prefHeight="30.0" styleClass="animation-btn" text="■"
+                                            AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0"/>
+                                    <ToggleButton fx:id="togglePreOrder" layoutX="25.0" layoutY="72.0"
+                                                  mnemonicParsing="false" onAction="#initTraversalMode" selected="true"
+                                                  styleClass="order-btn" text="* Прямой обход"
+                                                  AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0"
+                                                  AnchorPane.topAnchor="60.0">
+                                        <toggleGroup>
+                                            <ToggleGroup fx:id="orders"/>
+                                        </toggleGroup>
+                                    </ToggleButton>
+                                    <ToggleButton fx:id="togglePostOrder" layoutX="26.0" layoutY="102.0"
+                                                  mnemonicParsing="false" onAction="#initTraversalMode"
+                                                  styleClass="order-btn" text="* Обратный обход" toggleGroup="$orders"
+                                                  AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0"
+                                                  AnchorPane.topAnchor="85.0"/>
+                                    <ToggleButton fx:id="toggleInOrder" layoutX="14.0" layoutY="132.0"
+                                                  mnemonicParsing="false" onAction="#initTraversalMode"
+                                                  prefHeight="30.0" prefWidth="152.0" styleClass="order-btn"
+                                                  text="* Внутренний обход" toggleGroup="$orders"
+                                                  AnchorPane.leftAnchor="-15.0" AnchorPane.rightAnchor="-15.0"
+                                                  AnchorPane.topAnchor="110.0"/>
                                 </AnchorPane>
                             </TitledPane>
                         </VBox>
-                        <ToggleButton fx:id="sideBarToggle" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#hideSideBar" prefHeight="335.0" selected="true" styleClass="hide-controls-button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ToggleButton fx:id="sideBarToggle" maxWidth="-Infinity" minWidth="-Infinity"
+                                      mnemonicParsing="false" onAction="#hideSideBar" prefHeight="335.0" selected="true"
+                                      styleClass="hide-controls-button" AnchorPane.bottomAnchor="0.0"
+                                      AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <graphic>
-                                 <Label styleClass="hide-controls" text="▼" />
+                                <Label styleClass="hide-controls" text="▼"/>
                             </graphic>
                         </ToggleButton>
                     </AnchorPane>
                 </left>
             </BorderPane>
         </AnchorPane>
-        <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="106.0" prefWidth="600.0" style="-fx-background-color: #403940;" SplitPane.resizableWithParent="false">
-            <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0"
+                    prefHeight="106.0" prefWidth="600.0" style="-fx-background-color: #403940;"
+                    SplitPane.resizableWithParent="false">
+            <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                        AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <TextFlow fx:id="console" prefHeight="200.0" prefWidth="636.0" styleClass="console">
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&gt; Прямой обход:     " />
-                    <Text fx:id="preOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-out" />
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&#10;&gt; Обратный обход:   " />
-                    <Text fx:id="postOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-out" />
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&#10;&gt; Внутренний обход: " />
-                    <Text fx:id="inOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-out" />
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label"
+                          text="&gt; Прямой обход:     "/>
+                    <Text fx:id="preOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-out"/>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label"
+                          text="&#10;&gt; Обратный обход:   "/>
+                    <Text fx:id="postOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-out"/>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label"
+                          text="&#10;&gt; Внутренний обход: "/>
+                    <Text fx:id="inOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-out"/>
                 </TextFlow>
             </ScrollPane>
         </AnchorPane>

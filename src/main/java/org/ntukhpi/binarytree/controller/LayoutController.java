@@ -89,13 +89,18 @@ public class LayoutController implements Initializable {
                 }
             }));
 
-    private Toggle traverseMode;
 
     /*##############################
      #                             #
      # JavaFX elements             #
      #                             #
      ##############################*/
+
+
+    /**
+     * Текущая позиция переключателя режима обхода.
+     */
+    private Toggle traverseMode;
 
     /* Animation controls */
 
@@ -155,6 +160,7 @@ public class LayoutController implements Initializable {
         //initialize animation
         animation.setCycleCount(Animation.INDEFINITE);
     }
+
 
     /*##############################
      #                             #

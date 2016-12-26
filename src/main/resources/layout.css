@@ -1,3 +1,5 @@
+
+/* Scene root */
 .root {
     -fx-background-color: transparent;
 
@@ -6,14 +8,18 @@
     -fx-focus-color: red;
 }
 
+/* Search & input text-field */
 .search {
     -fx-font: 18px "Segoe UI";
 }
 
+/* Split pane styling */
 .split-pane-divider {
     -fx-background-color: #403940;
     -fx-padding: 0 1 0 1;
 }
+
+/* Menu bar & elements styling */
 
 .menu-bar {
     -fx-base: #333333;
@@ -35,9 +41,12 @@
 .menu .label:hover {
     -fx-text-fill: white;
 }
+
 .menu-item:focused .label {
     -fx-text-fill: black;
 }
+
+/* Sidebar styling */
 
 .controls {
     -fx-background-color: #343034;
@@ -52,52 +61,11 @@
     -fx-max-width: 25;
     -fx-alignment: top-left;
 }
-/*.hide-controls-button:selected:focused:armed > .hide-controls {
-    -fx-rotate: 0;
-}*/
 
 .hide-controls {
     -fx-rotate: -90;
     -fx-font: 18px "Consolas";
     -fx-text-background-color: silver;
-}
-
-.scroll-bar {
-    -fx-background-color: transparent;
-}
-
-.scroll-bar .thumb {
-    -fx-background-color: #343034;
-    -fx-opacity: 60%;
-    -fx-border-radius: 0%;
-    -fx-background-radius: 0%;
-}
-
-.scroll-bar .track {
-    -fx-background-color: #aa9999;
-}
-
-.increment-button, .decrement-button, .increment-arrow, .decrement-arrow {
-    -fx-visible: false;
-    -fx-background-color: transparent;
-    -fx-pref-height: 0px;
-    -fx-pref-width: 0px;
-}
-
-.corner {
-    -fx-background-color: transparent;
-    -fx-pref-height: 0px;
-    -fx-pref-width: 0px;
-}
-
-.scroll-pane {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-border-width: 0;
-}
-
-.viewport {
-    -fx-background-color: #aa9999;
 }
 
 .control-btn {
@@ -115,6 +83,8 @@
 .control-btn-left {
     -fx-alignment: top-left;
 }
+
+/* Animation control panel styling */
 
 .titled-pane {
     -fx-font: 16px "Consolas";
@@ -171,6 +141,7 @@
     -fx-max-width: 35;
     -fx-base: #333333;
 }
+
 .animation-btn:focused {
     -fx-text-fill: #ffaaaa;
 }
@@ -187,10 +158,53 @@
     -fx-pref-height: 25;
     -fx-max-height: 25;
 }
+
 .order-btn:selected {
     -fx-background-color: #ff9999;
     -fx-text-fill: black;
 }
+
+/* scroll-pane styling */
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #343034;
+    -fx-opacity: 60%;
+    -fx-border-radius: 0%;
+    -fx-background-radius: 0%;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #aa9999;
+}
+
+.increment-button, .decrement-button, .increment-arrow, .decrement-arrow {
+    -fx-visible: false;
+    -fx-background-color: transparent;
+    -fx-pref-height: 0px;
+    -fx-pref-width: 0px;
+}
+
+.corner {
+    -fx-background-color: transparent;
+    -fx-pref-height: 0px;
+    -fx-pref-width: 0px;
+}
+
+.viewport {
+    -fx-background-color: #aa9999;
+}
+
+/* Bottom panel styling */
 
 .console {
     -fx-background-color: #403940;
@@ -201,6 +215,7 @@
 .console-label {
     -fx-fill: #ff8888;
 }
+
 .console-label:selected {
     -fx-fill: lightseagreen;
 }
@@ -212,6 +227,8 @@
 .console-out-selected {
     -fx-fill: gold;
 }
+
+/* Tree graph visualisation styling */
 
 .cell {
     -fx-font: 14px "Consolas";
@@ -232,6 +249,6 @@
     -fx-border-color: #551111;
 }
 
-.vertex{
+.vertex {
     -fx-stroke-width: 2px;
 }
