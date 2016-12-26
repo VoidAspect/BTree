@@ -1,4 +1,4 @@
-group 'com.ntukhpi'
+group 'org.ntukhpi'
 version '1.1'
 
 apply plugin: 'java'
@@ -35,7 +35,7 @@ jar {
 }
 
 jfx {
-    mainClass = 'com.ntukhpi.binarytree.BTree'
+    mainClass = 'org.ntukhpi.binarytree.BTree'
     jfxAppOutputDir = "build/jfx/app"
     jfxMainAppJarName = "BTree.jar"
     deployDir = "src/main/deploy"
