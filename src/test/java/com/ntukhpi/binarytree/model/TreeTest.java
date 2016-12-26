@@ -188,6 +188,7 @@ public class TreeTest {
         assertEquals(2, FACTORY.balancedTree(3, 2, 1).height());
         assertEquals(1, FACTORY.balancedTree(1).height());
         assertEquals(0, FACTORY.immutableTree().height());
+        assertEquals(5, FACTORY.immutableTree(10, 9, 8, 7, 6, 15, 13, 17, 11, 14, 16, 20).height());
         assertEquals(5, FACTORY.immutableTree(84, 12, -14, -972, 44, 32, 45, 56, 374, 321, 132, 906).height());
     }
 
