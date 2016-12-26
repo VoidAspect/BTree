@@ -34,7 +34,7 @@ public class BTreeGraph {
     /**
      * Базовый радиус ячейки на графе.
      */
-    private static final double CELL_RADIUS = 20;
+    public static final double CELL_RADIUS = 20;
 
     /**
      * Вертикальное расстояние между вершинами графа.
@@ -220,7 +220,7 @@ public class BTreeGraph {
      *
      * @return контейнер, который может содержать ссылку на выделенную ячейку.
      */
-    private Optional<Label> getSelected() {
+    public Optional<Label> getSelected() {
         return Optional.ofNullable((Label) cells.lookup('.' + Style.CELL_SELECTED_STYLE.getStyleClass()));
     }
 

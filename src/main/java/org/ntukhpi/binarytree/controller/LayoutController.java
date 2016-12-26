@@ -84,6 +84,7 @@ public class LayoutController implements Initializable {
             actionEvent -> {
                 if (!cellNumberMap.isEmpty()) {
                     treeGraph.findNode(cellNumberMap.pollFirstEntry().getValue());
+                    navigateToSelected();
                 } else {
                     stop();
                 }
@@ -207,6 +208,7 @@ public class LayoutController implements Initializable {
     public void insert() {
         getInput().ifPresent(treeGraph::addNode);
         updateTraversal();
+        navigateToSelected();
     }
 
     /**
@@ -218,6 +220,7 @@ public class LayoutController implements Initializable {
         int randomValue = RANDOM.nextInt(UPPER_BOUND_RANDOM * 2) + LOWER_BOUND_RANDOM;
         treeGraph.addNode(randomValue);
         updateTraversal();
+        navigateToSelected();
     }
 
     /**
@@ -236,6 +239,7 @@ public class LayoutController implements Initializable {
     public void mutate() {
         getInput().ifPresent(treeGraph::mutateNode);
         updateTraversal();
+        navigateToSelected();
     }
 
     /**
@@ -244,6 +248,7 @@ public class LayoutController implements Initializable {
     @FXML
     public void findMin() {
         treeGraph.min();
+        navigateToSelected();
     }
 
     /**
@@ -252,6 +257,7 @@ public class LayoutController implements Initializable {
     @FXML
     public void findMax() {
         treeGraph.max();
+        navigateToSelected();
     }
 
     /**
@@ -287,6 +293,7 @@ public class LayoutController implements Initializable {
         } else if (keyCode.equals(KeyCode.DELETE)) {
             remove();
         }
+        navigateToSelected();
     }
 
     /**
@@ -409,6 +416,24 @@ public class LayoutController implements Initializable {
         }
 
         return optional;
+    }
+
+    private void navigateToSelected() {
+        treeGraph.getSelected().ifPresent(label -> {
+            Group content = treeGraph.getContent();
+
+            double layoutX = label.getLayoutX() + BTreeGraph.CELL_RADIUS;
+            double layoutMaxX = content.getBoundsInLocal().getMaxX();
+            double layoutMinX = content.getBoundsInLocal().getMinX();
+            double newH = (layoutX + Math.abs(layoutMinX)) / (Math.abs(layoutMaxX) + Math.abs(layoutMinX));
+            viewArea.setHvalue(newH);
+
+            double layoutY = label.getLayoutY() + BTreeGraph.CELL_RADIUS;
+            double layoutMaxY = content.getBoundsInLocal().getMaxY();
+            double layoutMinY = content.getBoundsInLocal().getMinY();
+            double newV = (layoutY + Math.abs(layoutMinY)) / (Math.abs(layoutMaxY) + Math.abs(layoutMinY));
+            viewArea.setVvalue(newV);
+        });
     }
 
 
