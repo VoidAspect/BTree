@@ -1,5 +1,5 @@
 group 'com.ntukhpi'
-version '1.0'
+version '1.1'
 
 apply plugin: 'java'
 
@@ -34,43 +34,16 @@ jar {
     }
 }
 
-// these values are the examples and defaults
-// you won't need them all
-
-// configure javafx-gradle-plugin
-// for all available settings please look at the class "JavaFXGradlePluginExtension"
 jfx {
-    verbose = true
     mainClass = 'com.ntukhpi.binarytree.BTree'
     jfxAppOutputDir = "build/jfx/app"
     jfxMainAppJarName = "BTree.jar"
     deployDir = "src/main/deploy"
-    useEnvironmentRelativeExecutables = true
-
 
     // gradle jfxNative
-    identifier = null  // String - setting this for windows-bundlers makes it possible to generate upgradeable installers (using same GUID)
-    vendor = "Alexander Gorbunov"
+    vendor = "NTU KhPI"
     nativeOutputDir = "build/jfx/native"
-    bundler = "ALL" // set this to some specific, if your don't want all bundlers running, examples "windows.app", "jnlp", ...
-    jvmProperties = null // Map<String, String>
-    jvmArgs = null // List<String>
-    userJvmArgs = null // Map<String, String>
-    launcherArguments = null // List<String>
-    nativeReleaseVersion = "1.0"
-    needShortcut = false
-    needMenu = false
-    appName = "BTree" // this is used for files below "src/main/deploy", e.g. "src/main/deploy/windows/project.ico"
-    additionalBundlerResources = null // path to some additional resources for the bundlers when creating application-bundle
-    additionalAppResources = null // path to some additional resources when creating application-bundle
-    fileAssociations = null // List<Map<String, Object>>
-    noBlobSigning = false // when using bundler "jnlp", you can choose to NOT use blob signing
-    customBundlers = null // List<String>
-    skipNativeLauncherWorkaround205 = false
-    skipNativeLauncherWorkaround124 = false
-    skipNativeLauncherWorkaround167 = false
-    skipJNLPRessourcePathWorkaround182 = false
-    skipSigningJarFilesJNLP185 = false
-    skipSizeRecalculationForJNLP185 = false
-
+    nativeReleaseVersion = "1.1"
+    bundler = 'windows.app'
+    appName = "BTree"
 }
