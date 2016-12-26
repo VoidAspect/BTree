@@ -15,14 +15,19 @@ public enum Style {
     ANIMATION_BUTTON("animation-btn"),
 
     /**
-     * Стиль выбранной ячейки дерева.
+     * Базовый стиль ребра дерева.
      */
-    CELL_SELECTED_STYLE("cell-selected"),
+    VERTEX("vertex"),
 
     /**
      * Базовый стиль ячейки дерева.
      */
     CELL_STYLE("cell"),
+
+    /**
+     * Стиль выбранной ячейки дерева.
+     */
+    CELL_SELECTED_STYLE("cell-selected"),
 
     /**
      * Стиль текста выбранной строки на нижней панели (консоли).

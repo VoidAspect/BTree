@@ -21,7 +21,7 @@ import static com.ntukhpi.binarytree.graph.Style.CELL_STYLE;
  * <br>Может быть вставлен в любую внешнюю панель. Инкапсулирует все изменения модели данных.
  * <br>Состоит из ячеек ({@link BTreeGraph#cells}) и ребер ({@link BTreeGraph#vertexes}),
  * доступ к которым реализован через общую группу ({@link BTreeGraph#content})
- * <br>Рендеринг контентов должен происходить при каждом изменении модели данных {@link BTreeGraph#tree}
+ * <br>Рендеринг контента должен происходить при каждом изменении модели данных {@link BTreeGraph#tree}
  * <br>Обновления осуществляются синхронно.
  * <br>Далее, дабы избежать путаницы, в документации этого класса называю модель данных "деревом", а визуальную модель - "графом".
  *
@@ -264,7 +264,7 @@ public class BTreeGraph {
         Map<Integer, Position> levels = buildLevels(tree, new Position(0, 0));
 
         levels.forEach(this::drawCell);
-        drawVertices(tree);
+        drawVertexes(tree);
     }
 
     /**
@@ -309,7 +309,7 @@ public class BTreeGraph {
      *
      * @param tree {@link NavigableTree}
      */
-    private void drawVertices(NavigableTree<Integer> tree) {
+    private void drawVertexes(NavigableTree<Integer> tree) {
         Optional<Integer> root = tree.getRoot();
 
         if (root.isPresent()) {
@@ -322,11 +322,11 @@ public class BTreeGraph {
             Optional<Integer> left = leftBranch.getRoot();
             if (right.isPresent()) {
                 drawVertex(rootVal, right.get());
-                drawVertices(rightBranch);
+                drawVertexes(rightBranch);
             }
             if (left.isPresent()) {
                 drawVertex(rootVal, left.get());
-                drawVertices(leftBranch);
+                drawVertexes(leftBranch);
             }
         }
 
@@ -378,6 +378,7 @@ public class BTreeGraph {
         if (secondCell == null) throw new IllegalStateException();
 
         Line vertex = new Line();
+        vertex.getStyleClass().add(Style.VERTEX.getStyleClass());
         vertex.startXProperty().bind(firstCell.layoutXProperty().add(CELL_RADIUS));
         vertex.startYProperty().bind(firstCell.layoutYProperty().add(CELL_RADIUS));
         vertex.endXProperty().bind(secondCell.layoutXProperty().add(CELL_RADIUS));
