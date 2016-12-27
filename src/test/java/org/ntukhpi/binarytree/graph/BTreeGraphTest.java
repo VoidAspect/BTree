@@ -15,7 +15,7 @@ public class BTreeGraphTest {
 
     private static BTreeGraph bTreeGraph;
 
-    static { //workaround to access elements without launching application
+    static { //crutch to access elements without launching application
         new JFXPanel();
     }
 

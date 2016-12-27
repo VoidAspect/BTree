@@ -7,7 +7,6 @@ import org.ntukhpi.binarytree.model.TreeFactory;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Line;
 
 import java.util.*;
@@ -93,7 +92,7 @@ public class BTreeGraph { //todo re-implement concurrency
      */
     public boolean findNode(int value) {
         Optional.ofNullable(cells.lookup("#" + value))
-                .ifPresent(label -> selectCell((Label) label));
+                .ifPresent(node -> selectCell((Label) node));
         return tree.contains(value);
     }
 
@@ -112,7 +111,7 @@ public class BTreeGraph { //todo re-implement concurrency
      * Удалить с графа вершину, которая выделена на данный момент.
      */
     public void removeNode() {
-        getSelected().ifPresent(selected -> removeNode(Integer.parseInt(selected.getText())));
+        getSelected().ifPresent(selected -> removeNode(Integer.parseInt(selected.getId())));
     }
 
     /**
@@ -124,13 +123,12 @@ public class BTreeGraph { //todo re-implement concurrency
     public void mutateNode(int newValue) {
         getSelected().ifPresent(selected -> {
             int oldValue = Integer.parseInt(selected.getId());
-            if (tree.contains(oldValue)) {
-                tree = TREE_FACTORY.immutableTree(tree.traverse(Traversal.PRE_ORDER).stream()
-                        .map(e -> (e == oldValue) ? newValue : e)
-                        .toArray(Integer[]::new));
-                draw();
-                findNode(newValue);
-            }
+            Integer[] values = tree.traverse(Traversal.PRE_ORDER).stream()
+                    .map(e -> (e == oldValue) ? newValue : e)
+                    .toArray(Integer[]::new);
+            tree = TREE_FACTORY.immutableTree(values);
+            draw();
+            findNode(newValue);
         });
     }
 
@@ -138,9 +136,12 @@ public class BTreeGraph { //todo re-implement concurrency
      * Перестроить дерево в сбалансированное и перерисовать граф.
      */
     public void balance() {
-        List<Integer> traverse = tree.traverse(Traversal.IN_ORDER);
-        tree = TREE_FACTORY.balancedTree(traverse.toArray(new Integer[traverse.size()]));
+        Integer[] values = tree.traverse(Traversal.IN_ORDER).stream()
+                .toArray(Integer[]::new);
+        tree = TREE_FACTORY.balancedTree(values);
+        Optional<Label> selected = getSelected();
         draw();
+        selected.ifPresent(label -> findNode(Integer.parseInt(label.getId())));
     }
 
     /**
@@ -347,15 +348,10 @@ public class BTreeGraph { //todo re-implement concurrency
             String selected = Style.CELL_SELECTED_STYLE.getStyleClass();
             ObservableList<String> styleClass = cell.getStyleClass();
             if (!styleClass.contains(selected)) {
-                getSelected().ifPresent(label -> label.getStyleClass().remove(selected));
+                unselect();
                 styleClass.add(selected);
             } else {
                 styleClass.remove(selected);
-            }
-        });
-        cell.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.DELETE)) {
-                removeNode(value);
             }
         });
         cells.getChildren().add(cell);
