@@ -213,7 +213,7 @@
 }
 
 .console-label {
-    -fx-fill: ivory;
+    -fx-fill: silver;
 }
 
 .console-out {
@@ -221,7 +221,7 @@
 }
 
 .console-out-arrow {
-    -fx-fill: ivory;
+    -fx-fill: silver;
 }
 
 .console-out-value {
