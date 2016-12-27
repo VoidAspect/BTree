@@ -418,6 +418,9 @@ public class LayoutController implements Initializable {
         return optional;
     }
 
+    /**
+     * Сдвинуть экран до выделенной ячейки.
+     */
     private void navigateToSelected() {
         treeGraph.getSelected().ifPresent(label -> {
             Group content = treeGraph.getContent();
