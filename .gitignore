@@ -8,5 +8,5 @@
 .gradle
 build
 src/test/resources/
-
-
+gradle/
+gradlew*

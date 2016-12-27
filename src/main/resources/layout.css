@@ -224,6 +224,10 @@
     -fx-fill: cadetblue;
 }
 
+.console-out-arrow {
+    -fx-fill: white;
+}
+
 .console-out-selected {
     -fx-fill: gold;
 }

@@ -1,5 +1,6 @@
 package org.ntukhpi.binarytree.controller;
 
+import javafx.collections.ObservableList;
 import org.ntukhpi.binarytree.graph.BTreeGraph;
 import org.ntukhpi.binarytree.graph.Style;
 import javafx.animation.Animation;
@@ -22,7 +23,6 @@ import java.net.URL;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -50,14 +50,11 @@ public class LayoutController implements Initializable {
     private static final int LOWER_BOUND_RANDOM = -999;
 
     /**
-     * Разделитель " => " для конкатенации строк при составлении сообщения об обходе в методе {@link LayoutController#updateTraversal()} )}.
-     */
-    private static final Collector<CharSequence, ?, String> TRAVERSAL_ORDER_ARROW = Collectors.joining(" => ");
-
-    /**
      * Длительность задержки при выделении вершины при анимации обхода.
      */
     private static final Duration SELECTION_DURATION = Duration.millis(500);
+
+    private static final String ARROW_JOINER = " -> ";
 
     /**
      * Визуальное представление бинарного дерева поиска
@@ -387,16 +384,34 @@ public class LayoutController implements Initializable {
      * <br>Также вызывет {@link LayoutController#initTraversalMode()}.
      */
     private void updateTraversal() {
-        preOrderOut.setText(Arrays.stream(treeGraph.getTraversalPreOrder())
-                .map(String::valueOf)
-                .collect(TRAVERSAL_ORDER_ARROW));
-        postOrderOut.setText(Arrays.stream(treeGraph.getTraversalPostOrder())
-                .map(String::valueOf)
-                .collect(TRAVERSAL_ORDER_ARROW));
-        inOrderOut.setText(Arrays.stream(treeGraph.getTraversalInOrder())
-                .map(String::valueOf)
-                .collect(TRAVERSAL_ORDER_ARROW));
+        ObservableList<Node> text = console.getChildren();
+
+        text.clear();
+
+        text.add(preOrderOut);
+        addTextElements(text, treeGraph.getTraversalPreOrder());
+
+        text.add(postOrderOut);
+        addTextElements(text, treeGraph.getTraversalPostOrder());
+
+        text.add(inOrderOut);
+        addTextElements(text, treeGraph.getTraversalInOrder());
+
         initTraversalMode();
+    }
+
+    private void addTextElements(List<Node> text, Integer... elements) {
+        for (int i = 0; i < elements.length; i ++) {
+            int e = elements[i];
+            Text nodePrint = new Text("{" + i + ": " + e + "}");
+            nodePrint.getStyleClass().add("console-out");
+            text.add(nodePrint);
+            if (elements.length - i > 1) {
+                Text arrow = new Text(ARROW_JOINER);
+                arrow.getStyleClass().add("console-out-arrow");
+                text.add(arrow);
+            }
+        }
     }
 
     /**
