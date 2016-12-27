@@ -30,6 +30,21 @@ public enum Style {
     CELL_SELECTED_STYLE("cell-selected"),
 
     /**
+     * Базовый стиль текста строки на нижней панели (консоли).
+     */
+    CONSOLE_OUT("console-out"),
+
+    /**
+     * Стиль соединительной стрелки строк вывода на нижней панели (консоли).
+     */
+    CONSOLE_OUT_ARROW("console-out-arrow"),
+
+    /**
+     * Стиль значений вершин дерева в строках вывода на нижней панели (консоли).
+     */
+    CONSOLE_OUT_VALUE("console-out-value"),
+
+    /**
      * Стиль текста выбранной строки на нижней панели (консоли).
      */
     CONSOLE_OUT_SELECTED("console-out-selected");

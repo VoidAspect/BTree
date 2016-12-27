@@ -26,7 +26,16 @@ public class StyleTest {
         Assert.assertEquals(values[3], Style.CELL_SELECTED_STYLE);
         assertStyleClass("cell-selected", Style.CELL_SELECTED_STYLE);
 
-        Assert.assertEquals(values[4], Style.CONSOLE_OUT_SELECTED);
+        Assert.assertEquals(values[4], Style.CONSOLE_OUT);
+        assertStyleClass("console-out", Style.CONSOLE_OUT);
+
+        Assert.assertEquals(values[5], Style.CONSOLE_OUT_ARROW);
+        assertStyleClass("console-out-arrow", Style.CONSOLE_OUT_ARROW);
+
+        Assert.assertEquals(values[6], Style.CONSOLE_OUT_VALUE);
+        assertStyleClass("console-out-value", Style.CONSOLE_OUT_VALUE);
+
+        Assert.assertEquals(values[7], Style.CONSOLE_OUT_SELECTED);
         assertStyleClass("console-out-selected", Style.CONSOLE_OUT_SELECTED);
     }
 

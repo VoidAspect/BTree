@@ -56,6 +56,12 @@ public class LayoutController implements Initializable {
 
     private static final String ARROW_JOINER = " -> ";
 
+    private static final String PRE_ORDER_ID = "preOrder";
+
+    private static final String POST_ORDER_ID = "postOrder";
+
+    private static final String IN_ORDER_ID = "inOrder";
+
     /**
      * Визуальное представление бинарного дерева поиска
      */
@@ -328,7 +334,7 @@ public class LayoutController implements Initializable {
     @FXML
     public void initTraversalMode() {
         Integer[] cellValues;
-        Text text;
+        String id;
         traverseMode = Optional.ofNullable(orders.getSelectedToggle())
                 .orElseGet(() -> {
                     orders.selectToggle(traverseMode);
@@ -337,17 +343,17 @@ public class LayoutController implements Initializable {
 
         if (togglePreOrder.equals(traverseMode)) {
             cellValues = treeGraph.getTraversalPreOrder();
-            text = preOrderOut;
+            id = PRE_ORDER_ID;
         } else if (togglePostOrder.equals(traverseMode)) {
             cellValues = treeGraph.getTraversalPostOrder();
-            text = postOrderOut;
+            id = POST_ORDER_ID;
         } else if (toggleInOrder.equals(traverseMode)) {
             cellValues = treeGraph.getTraversalInOrder();
-            text = inOrderOut;
+            id = IN_ORDER_ID;
         } else {
             throw new IllegalStateException("One traverse order should always be selected");
         }
-        lightUpText(text);
+        lightUpText(id);
         cellNumberMap.clear();
         cellNumberMap.putAll(mapArrayValuesToPositions(cellValues));
         animation.jumpTo(Duration.ZERO);
@@ -355,13 +361,12 @@ public class LayoutController implements Initializable {
 
     /**
      * Подсветить текст.
-     *
-     * @param text визуальный компонент "текст".
      */
-    private void lightUpText(Text text) {
+    private void lightUpText(String id) {
         console.getChildren().forEach(node -> node.getStyleClass().
                 removeIf(Predicate.isEqual(Style.CONSOLE_OUT_SELECTED.getStyleClass())));
-        text.getStyleClass().add(Style.CONSOLE_OUT_SELECTED.getStyleClass());
+        console.lookupAll("#" + id)
+                .forEach(node -> node.getStyleClass().add(Style.CONSOLE_OUT_SELECTED.getStyleClass()));
     }
 
     /**
@@ -389,26 +394,41 @@ public class LayoutController implements Initializable {
         text.clear();
 
         text.add(preOrderOut);
-        addTextElements(text, treeGraph.getTraversalPreOrder());
+        addTextElements(text, PRE_ORDER_ID, treeGraph.getTraversalPreOrder());
 
         text.add(postOrderOut);
-        addTextElements(text, treeGraph.getTraversalPostOrder());
+        addTextElements(text, POST_ORDER_ID, treeGraph.getTraversalPostOrder());
 
         text.add(inOrderOut);
-        addTextElements(text, treeGraph.getTraversalInOrder());
+        addTextElements(text, IN_ORDER_ID, treeGraph.getTraversalInOrder());
 
         initTraversalMode();
     }
 
-    private void addTextElements(List<Node> text, Integer... elements) {
+    private void addTextElements(List<Node> text, String id, Integer... elements) {
+
         for (int i = 0; i < elements.length; i ++) {
-            int e = elements[i];
-            Text nodePrint = new Text("{" + i + ": " + e + "}");
-            nodePrint.getStyleClass().add("console-out");
-            text.add(nodePrint);
+            Text ordinal = new Text("{" + (i + 1) + ": ");
+            String e = String.valueOf(elements[i]);
+            Text value = new Text(e);
+            Text enclosing = new Text("}");
+
+            ordinal.setId(id);
+            ordinal.getStyleClass().add(Style.CONSOLE_OUT.getStyleClass());
+
+            enclosing.setId(id);
+            enclosing.getStyleClass().add(Style.CONSOLE_OUT.getStyleClass());
+
+            value.getStyleClass().add(Style.CONSOLE_OUT_VALUE.getStyleClass());
+
+            text.add(ordinal);
+            text.add(value);
+            text.add(enclosing);
+
             if (elements.length - i > 1) {
                 Text arrow = new Text(ARROW_JOINER);
-                arrow.getStyleClass().add("console-out-arrow");
+                arrow.setId(id);
+                arrow.getStyleClass().add(Style.CONSOLE_OUT_ARROW.getStyleClass());
                 text.add(arrow);
             }
         }

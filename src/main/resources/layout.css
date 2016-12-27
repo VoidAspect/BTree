@@ -213,11 +213,7 @@
 }
 
 .console-label {
-    -fx-fill: #ff8888;
-}
-
-.console-label:selected {
-    -fx-fill: lightseagreen;
+    -fx-fill: ivory;
 }
 
 .console-out {
@@ -225,11 +221,15 @@
 }
 
 .console-out-arrow {
-    -fx-fill: white;
+    -fx-fill: ivory;
+}
+
+.console-out-value {
+    -fx-fill: gold;
 }
 
 .console-out-selected {
-    -fx-fill: gold;
+    -fx-fill: #ff6655;
 }
 
 /* Tree graph visualisation styling */
