@@ -401,21 +401,21 @@ public class LayoutController implements Initializable {
         text.clear();
 
         text.add(preOrderOut);
-        addTextElements(text, PRE_ORDER_ID, treeGraph.getTraversalPreOrder());
+        text.addAll(addTextElements(PRE_ORDER_ID, treeGraph.getTraversalPreOrder()));
 
         text.add(postOrderOut);
-        addTextElements(text, POST_ORDER_ID, treeGraph.getTraversalPostOrder());
+        text.addAll(addTextElements(POST_ORDER_ID, treeGraph.getTraversalPostOrder()));
 
         text.add(inOrderOut);
-        addTextElements(text, IN_ORDER_ID, treeGraph.getTraversalInOrder());
+        text.addAll(addTextElements(IN_ORDER_ID, treeGraph.getTraversalInOrder()));
 
         initTraversalMode();
     }
 
-    private void addTextElements(List<Node> text, String id, Integer... elements) {
+    private List<Node> addTextElements(String id, Integer... elements) {
+        List<Node> text = new ArrayList<>();
 
         for (int i = 0; i < elements.length; i++) {
-
             int element = elements[i];
             int oneBasedOrdinal = i + 1;
 
@@ -457,6 +457,7 @@ public class LayoutController implements Initializable {
                 text.add(arrow);
             }
         }
+        return text;
     }
 
     /**
