@@ -95,20 +95,20 @@ abstract class NonEmptyTree<T extends Comparable<? super T>> extends ImmutableBi
 
     @Override
     public Optional<T> min() {
-        if (left().isEmpty()) {
-            return Optional.of(value);
-        } else {
-            return left().min();
+        NavigableTree<T> root = this;
+        while (!root.left().isEmpty()) {
+            root = root.left();
         }
+        return root.getRoot();
     }
 
     @Override
     public Optional<T> max() {
-        if (right().isEmpty()) {
-            return Optional.of(value);
-        } else {
-            return right().max();
+        NavigableTree<T> root = this;
+        while (!root.right().isEmpty()) {
+            root = root.right();
         }
+        return root.getRoot();
     }
 
     @Override
