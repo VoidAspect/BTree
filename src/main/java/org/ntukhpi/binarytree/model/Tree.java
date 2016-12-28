@@ -12,7 +12,7 @@ import java.util.Optional;
  *
  * @author Alexander Gorbunov
  */
-public interface Tree<T extends Comparable<T>> {
+public interface Tree<T extends Comparable<? super T>> {
 
     /**
      * Добавление нового элемента в дерево.

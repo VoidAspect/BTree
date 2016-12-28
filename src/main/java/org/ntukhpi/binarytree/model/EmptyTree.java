@@ -7,7 +7,7 @@ import java.util.Optional;
 /**
  * @author Alexander Gorbunov
  */
-final class EmptyTree <T extends Comparable<T>> extends ImmutableBinaryTree<T> {
+final class EmptyTree <T extends Comparable<? super T>> extends ImmutableBinaryTree<T> {
 
     private static final EmptyTree INSTANCE = new EmptyTree();
 
@@ -15,7 +15,7 @@ final class EmptyTree <T extends Comparable<T>> extends ImmutableBinaryTree<T> {
     }
 
     @SuppressWarnings("unchecked")
-    static <U extends Comparable<U>> ImmutableBinaryTree<U> instance() {
+    static <U extends Comparable<? super U>> ImmutableBinaryTree<U> instance() {
         return INSTANCE;
     }
 

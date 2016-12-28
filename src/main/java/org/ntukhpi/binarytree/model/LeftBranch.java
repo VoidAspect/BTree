@@ -1,7 +1,7 @@
 package org.ntukhpi.binarytree.model;
 
 
-final class LeftBranch<T extends Comparable<T>> extends SingleBranch<T> {
+final class LeftBranch<T extends Comparable<? super T>> extends SingleBranch<T> {
 
     LeftBranch(final T val, final ImmutableBinaryTree<T> child) {
         super(val, child);

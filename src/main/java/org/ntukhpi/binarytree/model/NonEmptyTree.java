@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * @author Alexander Gorbunov
  */
-abstract class NonEmptyTree<T extends Comparable<T>> extends ImmutableBinaryTree<T> {
+abstract class NonEmptyTree<T extends Comparable<? super T>> extends ImmutableBinaryTree<T> {
 
     private final T value;
 

@@ -1,6 +1,6 @@
 package org.ntukhpi.binarytree.model;
 
-abstract class SingleBranch<T extends Comparable<T>> extends NonEmptyTree<T> {
+abstract class SingleBranch<T extends Comparable<? super T>> extends NonEmptyTree<T> {
     private final ImmutableBinaryTree<T> child;
 
     SingleBranch(final T val, final ImmutableBinaryTree<T> childTree) {

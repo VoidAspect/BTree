@@ -2,7 +2,7 @@ package org.ntukhpi.binarytree.model;
 
 import java.util.function.Supplier;
 
-final class DualBranch<T extends Comparable<T>> extends NonEmptyTree<T> {
+final class DualBranch<T extends Comparable<? super T>> extends NonEmptyTree<T> {
 
     private final ImmutableBinaryTree<T> leftChild;
 

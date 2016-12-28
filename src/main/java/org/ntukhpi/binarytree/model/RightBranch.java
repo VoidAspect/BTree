@@ -1,6 +1,6 @@
 package org.ntukhpi.binarytree.model;
 
-final class RightBranch<T extends Comparable<T>> extends SingleBranch<T> {
+final class RightBranch<T extends Comparable<? super T>> extends SingleBranch<T> {
 
     RightBranch(final T val, final ImmutableBinaryTree<T> child) {
         super(val, child);

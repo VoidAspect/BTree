@@ -15,7 +15,7 @@ public final class TreeFactory {
      * @param <U> тип-параметр значений, которые будут хранится в дереве.
      * @return новое пустое дерево.
      */
-    public final <U extends Comparable<U>> ImmutableBinaryTree<U> immutableTree() {
+    public final <U extends Comparable<? super U>> ImmutableBinaryTree<U> immutableTree() {
         return EmptyTree.instance();
     }
 
@@ -29,7 +29,7 @@ public final class TreeFactory {
      * @return новое дерево с переданными значениями в вершинах.
      */
     @SafeVarargs
-    public final <U extends Comparable<U>> ImmutableBinaryTree<U> immutableTree(final U... elements) {
+    public final <U extends Comparable<? super U>> ImmutableBinaryTree<U> immutableTree(final U... elements) {
         ImmutableBinaryTree<U> tree = immutableTree();
         for (U elem : elements) {
             tree = tree.insert(elem);
@@ -48,7 +48,7 @@ public final class TreeFactory {
      * @see TreeFactory#populateTree(List)
      */
     @SafeVarargs
-    public final <U extends Comparable<U>> ImmutableBinaryTree<U> balancedTree(final U... elements) {
+    public final <U extends Comparable<? super U>> ImmutableBinaryTree<U> balancedTree(final U... elements) {
         List<U> asList = Arrays.asList(elements);
         asList.sort(Comparator.naturalOrder());
         return populateTree(asList);
@@ -64,7 +64,7 @@ public final class TreeFactory {
      * @param <U>      тип-параметр значений, которые будут хранится в дереве.
      * @return новое сбалансированное дерево с переданными значениями в вершинах.
      */
-    private <U extends Comparable<U>> ImmutableBinaryTree<U> populateTree(List<U> elements) {
+    private <U extends Comparable<? super U>> ImmutableBinaryTree<U> populateTree(List<U> elements) {
         if (elements.isEmpty()) return immutableTree();
 
         ImmutableBinaryTree<U> tree = immutableTree();

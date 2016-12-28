@@ -11,7 +11,7 @@ import java.util.Optional;
  * @author Alexander Gorbunov
  * @see Tree
  */
-public interface NavigableTree<T extends Comparable<T>> extends Tree<T> {
+public interface NavigableTree<T extends Comparable<? super T>> extends Tree<T> {
 
     /**
      * Получение правого поддерева.

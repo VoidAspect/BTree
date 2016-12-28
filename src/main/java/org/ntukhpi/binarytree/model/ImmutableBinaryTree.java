@@ -14,7 +14,7 @@ package org.ntukhpi.binarytree.model;
  *
  * @author Alexander Gorbunov
  */
-abstract class ImmutableBinaryTree<T extends Comparable<T>> implements NavigableTree<T> {
+abstract class ImmutableBinaryTree<T extends Comparable<? super T>> implements NavigableTree<T> {
 
     /**
      * Метод удаления корня дерева.
