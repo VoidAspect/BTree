@@ -27,6 +27,8 @@ public class BTreeGraphTest {
 
     @Test
     public void testTreeGraphConsistency() throws Exception {
+        assertEquals("20.0", String.valueOf(BTreeGraph.CELL_RADIUS));
+
         assertEquals(2, bTreeGraph.getContent().getChildren().size());
 
         bTreeGraph.addNode(0);

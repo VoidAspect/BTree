@@ -268,7 +268,7 @@ public class BTreeGraph { //todo re-implement concurrency
     /**
      * Метод построения карты позиций вершин графа на 2d системе координат.
      * <br>Горизонтальное расстояние между вершинами одного уровня
-     * считается как 2^[высота поддерева] * {@link BTreeGraph#CELL_RADIUS}
+     * считается как 2^[высота поддерева] * {@link BTreeGraph#CELL_RADIUS * 0.75}
      * <br>Вертикальное расстояние между вершинами соседних уровней = {@link BTreeGraph#VERTICAL_GAP}
      * <br>Каждая запись в итоговой карте соответствует значению из дерева
      * и его позиции при отрисовке веришины графа на системе координат.
@@ -289,7 +289,7 @@ public class BTreeGraph { //todo re-implement concurrency
         NavigableTree<Integer> right = tree.right();
 
         int height = right.height() > left.height() ? right.height() : left.height();
-        double horizontalGap = (CELL_RADIUS) * Math.pow(2, height);
+        double horizontalGap = (CELL_RADIUS * 0.75) * Math.pow(2, height);
 
         if (!left.isEmpty()) nodeMap.putAll(buildLevels(left, position.move(-horizontalGap, VERTICAL_GAP)));
 

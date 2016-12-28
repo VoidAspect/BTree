@@ -93,6 +93,11 @@ public class LayoutController implements Initializable {
                 }
             }));
 
+    /**
+     * Простой кэш для переиспользования текстовых компонентов.
+     */
+    private final Map<String, Text> textCache = new HashMap<>();
+
 
     /*##############################
      #                             #
@@ -162,6 +167,7 @@ public class LayoutController implements Initializable {
 
         traverseMode = orders.getSelectedToggle();
         //initialize animation
+        initTraversalMode();
         animation.setCycleCount(Animation.INDEFINITE);
     }
 
@@ -315,6 +321,7 @@ public class LayoutController implements Initializable {
     public void clean() {
         treeGraph.clear();
         input.clear();
+        textCache.clear();
         updateTraversal();
     }
 
@@ -407,28 +414,46 @@ public class LayoutController implements Initializable {
 
     private void addTextElements(List<Node> text, String id, Integer... elements) {
 
-        for (int i = 0; i < elements.length; i ++) {
-            Text ordinal = new Text("{" + (i + 1) + ": ");
-            String e = String.valueOf(elements[i]);
-            Text value = new Text(e);
-            Text enclosing = new Text("}");
+        for (int i = 0; i < elements.length; i++) {
 
-            ordinal.setId(id);
-            ordinal.getStyleClass().add(Style.CONSOLE_OUT.getStyleClass());
+            int element = elements[i];
+            int oneBasedOrdinal = i + 1;
 
-            enclosing.setId(id);
-            enclosing.getStyleClass().add(Style.CONSOLE_OUT.getStyleClass());
-
-            value.getStyleClass().add(Style.CONSOLE_OUT_VALUE.getStyleClass());
-
+            String ordinalKey = id + "|ordinal|" + i;
+            Text ordinal = textCache.computeIfAbsent(ordinalKey, key -> {
+                Text newOrdinal;
+                newOrdinal = new Text("{" + (oneBasedOrdinal) + ": ");
+                newOrdinal.setId(id);
+                newOrdinal.getStyleClass().add(Style.CONSOLE_OUT.getStyleClass());
+                return newOrdinal;
+            });
             text.add(ordinal);
+
+            String valueKey = id + "|value|" + element;
+            Text value = textCache.computeIfAbsent(valueKey, key -> {
+                Text newValue = new Text(String.valueOf(element));
+                newValue.getStyleClass().add(Style.CONSOLE_OUT_VALUE.getStyleClass());
+                return newValue;
+            });
             text.add(value);
+
+            String enclosingKey = id + "|enclosing|" + i;
+            Text enclosing = textCache.computeIfAbsent(enclosingKey, key -> {
+                Text newEnclosing = new Text("}");
+                newEnclosing.setId(id);
+                newEnclosing.getStyleClass().setAll(ordinal.getStyleClass());
+                return newEnclosing;
+            });
             text.add(enclosing);
 
             if (elements.length - i > 1) {
-                Text arrow = new Text(ARROW_JOINER);
-                arrow.setId(id);
-                arrow.getStyleClass().add(Style.CONSOLE_OUT_ARROW.getStyleClass());
+                String arrowKey = id + "|->|" + i;
+                Text arrow = textCache.computeIfAbsent(arrowKey, key -> {
+                    Text newArrow = new Text(ARROW_JOINER);
+                    newArrow.setId(id);
+                    newArrow.getStyleClass().add(Style.CONSOLE_OUT_ARROW.getStyleClass());
+                    return newArrow;
+                });
                 text.add(arrow);
             }
         }
