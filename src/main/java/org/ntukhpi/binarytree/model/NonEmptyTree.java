@@ -95,14 +95,20 @@ abstract class NonEmptyTree<T extends Comparable<? super T>> extends ImmutableBi
 
     @Override
     public Optional<T> min() {
-        if (left().isEmpty()) return Optional.of(value);
-        return left().min();
+        if (left().isEmpty()) {
+            return Optional.of(value);
+        } else {
+            return left().min();
+        }
     }
 
     @Override
     public Optional<T> max() {
-        if (right().isEmpty()) return Optional.of(value);
-        return right().max();
+        if (right().isEmpty()) {
+            return Optional.of(value);
+        } else {
+            return right().max();
+        }
     }
 
     @Override
