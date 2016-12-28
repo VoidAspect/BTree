@@ -46,32 +46,31 @@ abstract class NonEmptyTree<T extends Comparable<? super T>> extends ImmutableBi
 
     @Override
     protected ImmutableBinaryTree<T> insertAll(final ImmutableBinaryTree<T> tree) {
+        if (tree.isEmpty()) return this;
+
         ImmutableBinaryTree<T> newTree;
-        if (tree == EmptyTree.instance()) {
-            newTree = this;
+
+        T newRoot = ((NonEmptyTree<T>) tree).value;
+        if (value.equals(newRoot)) {
+            newTree = replaceChildren(left().insertAll(tree.left()), right().insertAll(tree.right()));
+        } else if (value.compareTo(newRoot) > 0) {
+            newTree = replaceChildren(left().insertAll(tree), right());
         } else {
-            NonEmptyTree<T> nonEmptyTree = (NonEmptyTree<T>) tree;
-            if (value.equals(nonEmptyTree.value)) {
-                newTree = replaceChildren(left().insertAll(nonEmptyTree.left()),
-                        right().insertAll(nonEmptyTree.right()));
-            } else if (value.compareTo(nonEmptyTree.value) > 0) {
-                newTree = replaceChildren(left().insertAll(tree), right());
-            } else {
-                newTree = replaceChildren(left(), right().insertAll(tree));
-            }
+            newTree = replaceChildren(left(), right().insertAll(tree));
         }
+
         return newTree;
     }
 
     ImmutableBinaryTree<T> replaceChildren(final ImmutableBinaryTree<T> leftBranch, final ImmutableBinaryTree<T> rightBranch) {
         ImmutableBinaryTree<T> tree;
-        if (leftBranch == left() && rightBranch == right()) {
+        if (leftBranch.equals(left()) || rightBranch.equals(right())) {
             tree = this;
-        } else if (leftBranch == EmptyTree.instance() && rightBranch == EmptyTree.instance()) {
+        } else if (leftBranch.isEmpty() && rightBranch.isEmpty()) {
             tree = new Leaf<>(value);
-        } else if (leftBranch == EmptyTree.instance()) {
+        } else if (leftBranch.isEmpty()) {
             tree = new RightBranch<>(value, rightBranch);
-        } else if (rightBranch == EmptyTree.instance()) {
+        } else if (rightBranch.isEmpty()) {
             tree = new LeftBranch<>(value, leftBranch);
         } else {
             tree = new DualBranch<>(value, leftBranch, rightBranch);
@@ -124,6 +123,7 @@ abstract class NonEmptyTree<T extends Comparable<? super T>> extends ImmutableBi
         }
         return nodeList;
     }
+
     private List<T> traversePreOrder() {
         List<T> list = new LinkedList<>();
         list.add(value);
