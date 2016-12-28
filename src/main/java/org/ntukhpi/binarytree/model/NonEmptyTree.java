@@ -64,7 +64,7 @@ abstract class NonEmptyTree<T extends Comparable<? super T>> extends ImmutableBi
 
     ImmutableBinaryTree<T> replaceChildren(final ImmutableBinaryTree<T> leftBranch, final ImmutableBinaryTree<T> rightBranch) {
         ImmutableBinaryTree<T> tree;
-        if (leftBranch.equals(left()) || rightBranch.equals(right())) {
+        if (leftBranch.equals(left()) && rightBranch.equals(right())) {
             tree = this;
         } else if (leftBranch.isEmpty() && rightBranch.isEmpty()) {
             tree = new Leaf<>(value);
