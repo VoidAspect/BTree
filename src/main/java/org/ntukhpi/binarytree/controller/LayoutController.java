@@ -20,9 +20,11 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -96,7 +98,7 @@ public class LayoutController implements Initializable {
     /**
      * Простой кэш для переиспользования текстовых компонентов.
      */
-    private final Map<String, Text> textCache = new HashMap<>();
+    private final TextCache cache = new TextCache();
 
 
     /*##############################
@@ -321,7 +323,7 @@ public class LayoutController implements Initializable {
     public void clean() {
         treeGraph.clear();
         input.clear();
-        textCache.clear();
+        cache.drop();
         updateTraversal();
     }
 
@@ -412,45 +414,41 @@ public class LayoutController implements Initializable {
         initTraversalMode();
     }
 
-    private List<Node> addTextElements(String id, Integer... elements) {
+    private List<Node> addTextElements(String order, Integer... elements) {
         List<Node> text = new ArrayList<>();
 
         for (int i = 0; i < elements.length; i++) {
             int element = elements[i];
-            int oneBasedOrdinal = i + 1;
 
-            String ordinalKey = id + "|ordinal|" + i;
-            Text ordinal = textCache.computeIfAbsent(ordinalKey, key -> {
+            int oneBasedOrdinal = i + 1;
+            Text ordinal = cache.getOrdinal(order, i, () -> {
                 Text newOrdinal;
                 newOrdinal = new Text("{" + (oneBasedOrdinal) + ": ");
-                newOrdinal.setId(id);
+                newOrdinal.setId(order);
                 newOrdinal.getStyleClass().add(Style.CONSOLE_OUT.getStyleClass());
                 return newOrdinal;
             });
             text.add(ordinal);
 
-            String valueKey = id + "|value|" + element;
-            Text value = textCache.computeIfAbsent(valueKey, key -> {
+            Text value = cache.getValue(order, element, () -> {
                 Text newValue = new Text(String.valueOf(element));
                 newValue.getStyleClass().add(Style.CONSOLE_OUT_VALUE.getStyleClass());
                 return newValue;
             });
             text.add(value);
 
-            String enclosingKey = id + "|enclosing|" + i;
-            Text enclosing = textCache.computeIfAbsent(enclosingKey, key -> {
+            Text enclosing = cache.getEnclosing(order, i, () -> {
                 Text newEnclosing = new Text("}");
-                newEnclosing.setId(id);
+                newEnclosing.setId(order);
                 newEnclosing.getStyleClass().setAll(ordinal.getStyleClass());
                 return newEnclosing;
             });
             text.add(enclosing);
 
             if (elements.length - i > 1) {
-                String arrowKey = id + "|->|" + i;
-                Text arrow = textCache.computeIfAbsent(arrowKey, key -> {
+                Text arrow = cache.getSeparator(order, i, () -> {
                     Text newArrow = new Text(ARROW_JOINER);
-                    newArrow.setId(id);
+                    newArrow.setId(order);
                     newArrow.getStyleClass().add(Style.CONSOLE_OUT_ARROW.getStyleClass());
                     return newArrow;
                 });
@@ -512,5 +510,42 @@ public class LayoutController implements Initializable {
     private static <T extends Comparable<T>> Map<Integer, T> mapArrayValuesToPositions(T[] values) {
         List<T> asList = Arrays.asList(values);
         return asList.stream().collect(Collectors.toMap(asList::indexOf, Function.identity()));
+    }
+
+    private static final class TextCache {
+
+        private static final Map<String, Text> CACHE = new HashMap<>();
+
+        private static final MessageFormat ORDINAL_KEY_FORMAT = new MessageFormat("{0}|ordinal|{1}");
+
+        private static final MessageFormat VALUE_KEY_FORMAT = new MessageFormat("{0}|value|{1}");
+
+        private static final MessageFormat ENCLOSING_KEY_FORMAT = new MessageFormat("{0}|enclosing|{1}");
+
+        private static final MessageFormat SEPARATOR_KEY_FORMAY = new MessageFormat("{0}|->|{1}");
+
+        Text getOrdinal(String order, int ordinal, Supplier<? extends Text> onAbsent) {
+            String ordinalKey = ORDINAL_KEY_FORMAT.format(new Object[]{order, ordinal});
+            return CACHE.computeIfAbsent(ordinalKey, key -> onAbsent.get());
+        }
+
+        Text getValue(String order, int value, Supplier<? extends Text> onAbsent) {
+            String ordinalKey = VALUE_KEY_FORMAT.format(new Object[]{order, value});
+            return CACHE.computeIfAbsent(ordinalKey, key -> onAbsent.get());
+        }
+
+        Text getEnclosing(String order, int value, Supplier<? extends Text> onAbsent) {
+            String ordinalKey = ENCLOSING_KEY_FORMAT.format(new Object[]{order, value});
+            return CACHE.computeIfAbsent(ordinalKey, key -> onAbsent.get());
+        }
+
+        Text getSeparator(String order, int value, Supplier<? extends Text> onAbsent) {
+            String ordinalKey = SEPARATOR_KEY_FORMAY.format(new Object[]{order, value});
+            return CACHE.computeIfAbsent(ordinalKey, key -> onAbsent.get());
+        }
+
+        void drop() {
+            CACHE.clear();
+        }
     }
 }

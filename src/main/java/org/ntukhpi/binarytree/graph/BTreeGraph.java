@@ -1,5 +1,6 @@
 package org.ntukhpi.binarytree.graph;
 
+import javafx.scene.Node;
 import org.ntukhpi.binarytree.model.NavigableTree;
 import org.ntukhpi.binarytree.model.Traversal;
 import org.ntukhpi.binarytree.model.Tree;
@@ -9,8 +10,10 @@ import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Line;
 
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * Графическое представление бинарного дерева, основанное на элементах JavaFX.
@@ -56,6 +59,11 @@ public class BTreeGraph { //todo re-implement concurrency
     private final Group content;
 
     /**
+     * Кэш визуальных компонентов графа.
+     */
+    private final GraphCache cache = new GraphCache();
+
+    /**
      * Модель данных - структура из целочисленных значений в виде бинарного дерева.
      * Иммутабельная, персистентная, неавтосбалансированная реализация.
      * <br>При каждом изменении модели содержимое групп визуальных компонентов очищается и визуализация повторяется сначала.
@@ -80,6 +88,7 @@ public class BTreeGraph { //todo re-implement concurrency
     public void clear() {
         tree = tree.clear();
         scrap();
+        cache.drop();
         System.gc(); //не делайте этого дома без надзора взрослых
     }
 
@@ -339,21 +348,24 @@ public class BTreeGraph { //todo re-implement concurrency
      */
     private void drawCell(int value, Position position) {
         String text = String.valueOf(value);
-        Label cell = new Label(text);
-        cell.setId(text);
+        Label cell = cache.getCell(value, () -> {
+            Label newCell = new Label(text);
+            newCell.setId(text);
+            newCell.getStyleClass().add(Style.CELL_STYLE.getStyleClass());
+            newCell.setOnMouseClicked(e -> {
+                String selected = Style.CELL_SELECTED_STYLE.getStyleClass();
+                ObservableList<String> styleClass = newCell.getStyleClass();
+                if (!styleClass.contains(selected)) {
+                    unselect();
+                    styleClass.add(selected);
+                } else {
+                    styleClass.remove(selected);
+                }
+            });
+            return newCell;
+        });
         cell.setLayoutX(position.x - CELL_RADIUS);
         cell.setLayoutY(position.y - CELL_RADIUS);
-        cell.getStyleClass().add(Style.CELL_STYLE.getStyleClass());
-        cell.setOnMouseClicked(e -> {
-            String selected = Style.CELL_SELECTED_STYLE.getStyleClass();
-            ObservableList<String> styleClass = cell.getStyleClass();
-            if (!styleClass.contains(selected)) {
-                unselect();
-                styleClass.add(selected);
-            } else {
-                styleClass.remove(selected);
-            }
-        });
         cells.getChildren().add(cell);
     }
 
@@ -370,12 +382,15 @@ public class BTreeGraph { //todo re-implement concurrency
         Label secondCell = (Label) cells.lookup("#" + end);
         if (secondCell == null) throw new IllegalStateException();
 
-        Line vertex = new Line();
-        vertex.getStyleClass().add(Style.VERTEX.getStyleClass());
-        vertex.startXProperty().bind(firstCell.layoutXProperty().add(CELL_RADIUS));
-        vertex.startYProperty().bind(firstCell.layoutYProperty().add(CELL_RADIUS));
-        vertex.endXProperty().bind(secondCell.layoutXProperty().add(CELL_RADIUS));
-        vertex.endYProperty().bind(secondCell.layoutYProperty().add(CELL_RADIUS));
+        Line vertex = cache.getVertex(start, end, () -> {
+            Line newVertex = new Line();
+            newVertex.getStyleClass().add(Style.VERTEX.getStyleClass());
+            newVertex.startXProperty().bind(firstCell.layoutXProperty().add(CELL_RADIUS));
+            newVertex.startYProperty().bind(firstCell.layoutYProperty().add(CELL_RADIUS));
+            newVertex.endXProperty().bind(secondCell.layoutXProperty().add(CELL_RADIUS));
+            newVertex.endYProperty().bind(secondCell.layoutYProperty().add(CELL_RADIUS));
+            return newVertex;
+        });
         vertexes.getChildren().add(vertex);
     }
 
@@ -408,7 +423,7 @@ public class BTreeGraph { //todo re-implement concurrency
      *
      * @author Alexander Gorbunov
      */
-    private class Position {
+    private final class Position {
 
         /**
          * Абсцисса точки.
@@ -440,4 +455,28 @@ public class BTreeGraph { //todo re-implement concurrency
             return new Position(this.x + x, this.y + y);
         }
     }
+
+    private static final class GraphCache {
+
+        private static final Map<String, Node> CACHE = new HashMap<>();
+
+        private static final MessageFormat CELL_KEY_FORMAT = new MessageFormat("cell|{0}");
+
+        private static final MessageFormat VERTEX_KEY_FORMAT = new MessageFormat("vertex|{0}|{1}");
+
+        Label getCell(int value, Supplier<? extends Node> onAbsent) {
+            String cellKey = CELL_KEY_FORMAT.format(new Object[] {value});
+            return (Label) CACHE.computeIfAbsent(cellKey, key -> onAbsent.get());
+        }
+
+        Line getVertex(int start, int end, Supplier<? extends Node> onAbsent) {
+            String vertexKey = VERTEX_KEY_FORMAT.format(new Object[] {start, end});
+            return (Line) CACHE.computeIfAbsent(vertexKey, key -> onAbsent.get());
+        }
+
+        void drop() {
+            CACHE.clear();
+        }
+    }
+
 }
