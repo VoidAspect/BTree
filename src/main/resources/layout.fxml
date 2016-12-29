@@ -107,9 +107,9 @@
         <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="90.0" minWidth="0.0" prefHeight="70.0" prefWidth="600.0" style="-fx-background-color: #403940;" SplitPane.resizableWithParent="false">
             <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <TextFlow fx:id="console" prefHeight="200.0" prefWidth="636.0" styleClass="console">
-                    <Text id="preOrder" fx:id="preOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&gt; Прямой обход: " />
-                    <Text id="postOrder" fx:id="postOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&#10;&#10;&gt; Обратный обход: " />
-                    <Text id="inOrder" fx:id="inOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&#10;&#10;&gt; Внутренний обход: " />
+                    <Text id="pre" fx:id="preOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&gt; Прямой обход: " />
+                    <Text id="post" fx:id="postOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&#10;&#10;&gt; Обратный обход: " />
+                    <Text id="in" fx:id="inOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&#10;&#10;&gt; Внутренний обход: " />
                 </TextFlow>
             </ScrollPane>
         </AnchorPane>

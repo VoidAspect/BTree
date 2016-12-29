@@ -19,6 +19,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.*;
@@ -65,14 +67,6 @@ public class LayoutController implements Initializable {
     private static final String POST_ORDER_ID = "post";
 
     private static final String IN_ORDER_ID = "in";
-
-    private static final String ORDINAL_TEXT_TYPE = "ord";
-
-    private static final String VALUE_TEXT_TYPE = "val";
-
-    private static final String ENCLOSING_TEXT_TYPE = "encl";
-
-    private static final String SEPARATOR_TEXT_TYPE = "sep";
 
     /**
      * Визуальное представление бинарного дерева поиска
@@ -431,41 +425,40 @@ public class LayoutController implements Initializable {
             int element = elements[i];
 
             int oneBasedOrdinal = i + 1;
-            Text ordinal = cache.getText(order, ORDINAL_TEXT_TYPE, i, () -> {
-                Text newOrdinal;
-                newOrdinal = new Text("{" + (oneBasedOrdinal) + ": ");
+            Text ordinal = cache.getText(order, "ord", i, () -> {
+                Text newOrdinal = new Text("{" + (oneBasedOrdinal) + ": ");
                 newOrdinal.setId(order);
                 newOrdinal.getStyleClass().add(Style.CONSOLE_OUT.getStyleClass());
                 return newOrdinal;
             });
-            text.add(ordinal);
+            text.add(ordinal); //e.g. "{0: "
 
-            Text value = cache.getText(order, VALUE_TEXT_TYPE, element, () -> {
+            Text value = cache.getText(order, "val", element, () -> {
                 Text newValue = new Text(String.valueOf(element));
                 newValue.getStyleClass().add(Style.CONSOLE_OUT_VALUE.getStyleClass());
                 return newValue;
             });
-            text.add(value);
+            text.add(value); //e.g. "-213"
 
-            Text enclosing = cache.getText(order, ENCLOSING_TEXT_TYPE, i, () -> {
+            Text enclosing = cache.getText(order, "encl", i, () -> {
                 Text newEnclosing = new Text("}");
                 newEnclosing.setId(order);
                 newEnclosing.getStyleClass().setAll(ordinal.getStyleClass());
                 return newEnclosing;
             });
-            text.add(enclosing);
+            text.add(enclosing); // "}"
 
             if (elements.length - i > 1) {
-                Text arrow = cache.getText(order, SEPARATOR_TEXT_TYPE, i, () -> {
+                Text arrow = cache.getText(order, "sep", i, () -> {
                     Text newArrow = new Text(ARROW_JOINER);
                     newArrow.setId(order);
                     newArrow.getStyleClass().add(Style.CONSOLE_OUT_ARROW.getStyleClass());
                     return newArrow;
                 });
-                text.add(arrow);
+                text.add(arrow); // " -> "
             }
         }
-        return text;
+        return text; //e.g. "{0: -213} -> {1: -37} -> {2: 0}"
     }
 
     /**
@@ -494,17 +487,17 @@ public class LayoutController implements Initializable {
         treeGraph.getSelected().ifPresent(label -> {
             Group content = treeGraph.getContent();
 
-            double layoutX = label.getLayoutX() + BTreeGraph.CELL_RADIUS;
+            double layoutX = label.getLayoutX() + label.getWidth();
             double layoutMaxX = content.getBoundsInLocal().getMaxX();
             double layoutMinX = content.getBoundsInLocal().getMinX();
             double newH = (layoutX + Math.abs(layoutMinX)) / (Math.abs(layoutMaxX) + Math.abs(layoutMinX));
-            viewArea.setHvalue(newH);
+            viewArea.setHvalue(new BigDecimal(newH).setScale(2, RoundingMode.HALF_UP).doubleValue());
 
-            double layoutY = label.getLayoutY() + BTreeGraph.CELL_RADIUS;
+            double layoutY = label.getLayoutY() + label.getWidth();
             double layoutMaxY = content.getBoundsInLocal().getMaxY();
             double layoutMinY = content.getBoundsInLocal().getMinY();
             double newV = (layoutY + Math.abs(layoutMinY)) / (Math.abs(layoutMaxY) + Math.abs(layoutMinY));
-            viewArea.setVvalue(newV);
+            viewArea.setVvalue(new BigDecimal(newV).setScale(3, RoundingMode.HALF_UP).doubleValue());
         });
     }
 
@@ -529,13 +522,13 @@ public class LayoutController implements Initializable {
         private static final MessageFormat TEXT_KEY_FORMAT = new MessageFormat("{0}|{1}|{2}");
 
         Text getText(String order, String type, int value, Supplier<? extends Text> onAbsent) {
-            String ordinalKey = TEXT_KEY_FORMAT.format(new Object[]{order, type, value});
-            return CACHE.computeIfAbsent(ordinalKey, key -> onAbsent.get());
-
+            String textKey = TEXT_KEY_FORMAT.format(new Object[]{order, type, value});
+            return CACHE.computeIfAbsent(textKey, key -> onAbsent.get());
         }
 
         void drop() {
             CACHE.clear();
         }
+
     }
 }

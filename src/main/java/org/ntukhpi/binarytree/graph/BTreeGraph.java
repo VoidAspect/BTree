@@ -36,7 +36,7 @@ public class BTreeGraph { //todo re-implement concurrency
     /**
      * Базовый радиус ячейки на графе.
      */
-    public static final double CELL_RADIUS = 20;
+    static final double CELL_RADIUS = 20;
 
     /**
      * Вертикальное расстояние между вершинами графа.
@@ -298,12 +298,11 @@ public class BTreeGraph { //todo re-implement concurrency
         NavigableTree<Integer> right = tree.right();
 
         int height = right.height() > left.height() ? right.height() : left.height();
-        double horizontalGap = (CELL_RADIUS * 0.75) * Math.pow(2, height);
+        double horizontalGap = (CELL_RADIUS * 0.75) * (1L << height); // fastest way to get a power of 2
 
         if (!left.isEmpty()) nodeMap.putAll(buildLevels(left, position.move(-horizontalGap, VERTICAL_GAP)));
 
         if (!right.isEmpty()) nodeMap.putAll(buildLevels(right, position.move(horizontalGap, VERTICAL_GAP)));
-
 
         return nodeMap;
     }
@@ -460,9 +459,9 @@ public class BTreeGraph { //todo re-implement concurrency
 
         private static final Map<String, Node> CACHE = new HashMap<>();
 
-        private static final MessageFormat CELL_KEY_FORMAT = new MessageFormat("cell|{0}");
+        private static final MessageFormat CELL_KEY_FORMAT = new MessageFormat("{0}");
 
-        private static final MessageFormat VERTEX_KEY_FORMAT = new MessageFormat("vertex|{0}|{1}");
+        private static final MessageFormat VERTEX_KEY_FORMAT = new MessageFormat("{0}-{1}");
 
         Label getCell(int value, Supplier<? extends Node> onAbsent) {
             String cellKey = CELL_KEY_FORMAT.format(new Object[] {value});
