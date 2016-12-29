@@ -56,13 +56,23 @@ public class LayoutController implements Initializable {
      */
     private static final Duration SELECTION_DURATION = Duration.millis(500);
 
+    /* Console text related constants below */
+
     private static final String ARROW_JOINER = " -> ";
 
-    private static final String PRE_ORDER_ID = "preOrder";
+    private static final String PRE_ORDER_ID = "pre";
 
-    private static final String POST_ORDER_ID = "postOrder";
+    private static final String POST_ORDER_ID = "post";
 
-    private static final String IN_ORDER_ID = "inOrder";
+    private static final String IN_ORDER_ID = "in";
+
+    private static final String ORDINAL_TEXT_TYPE = "ord";
+
+    private static final String VALUE_TEXT_TYPE = "val";
+
+    private static final String ENCLOSING_TEXT_TYPE = "encl";
+
+    private static final String SEPARATOR_TEXT_TYPE = "sep";
 
     /**
      * Визуальное представление бинарного дерева поиска
@@ -421,7 +431,7 @@ public class LayoutController implements Initializable {
             int element = elements[i];
 
             int oneBasedOrdinal = i + 1;
-            Text ordinal = cache.getOrdinal(order, i, () -> {
+            Text ordinal = cache.getText(order, ORDINAL_TEXT_TYPE, i, () -> {
                 Text newOrdinal;
                 newOrdinal = new Text("{" + (oneBasedOrdinal) + ": ");
                 newOrdinal.setId(order);
@@ -430,14 +440,14 @@ public class LayoutController implements Initializable {
             });
             text.add(ordinal);
 
-            Text value = cache.getValue(order, element, () -> {
+            Text value = cache.getText(order, VALUE_TEXT_TYPE, element, () -> {
                 Text newValue = new Text(String.valueOf(element));
                 newValue.getStyleClass().add(Style.CONSOLE_OUT_VALUE.getStyleClass());
                 return newValue;
             });
             text.add(value);
 
-            Text enclosing = cache.getEnclosing(order, i, () -> {
+            Text enclosing = cache.getText(order, ENCLOSING_TEXT_TYPE, i, () -> {
                 Text newEnclosing = new Text("}");
                 newEnclosing.setId(order);
                 newEnclosing.getStyleClass().setAll(ordinal.getStyleClass());
@@ -446,7 +456,7 @@ public class LayoutController implements Initializable {
             text.add(enclosing);
 
             if (elements.length - i > 1) {
-                Text arrow = cache.getSeparator(order, i, () -> {
+                Text arrow = cache.getText(order, SEPARATOR_TEXT_TYPE, i, () -> {
                     Text newArrow = new Text(ARROW_JOINER);
                     newArrow.setId(order);
                     newArrow.getStyleClass().add(Style.CONSOLE_OUT_ARROW.getStyleClass());
@@ -516,32 +526,12 @@ public class LayoutController implements Initializable {
 
         private static final Map<String, Text> CACHE = new HashMap<>();
 
-        private static final MessageFormat ORDINAL_KEY_FORMAT = new MessageFormat("{0}|ordinal|{1}");
+        private static final MessageFormat TEXT_KEY_FORMAT = new MessageFormat("{0}|{1}|{2}");
 
-        private static final MessageFormat VALUE_KEY_FORMAT = new MessageFormat("{0}|value|{1}");
-
-        private static final MessageFormat ENCLOSING_KEY_FORMAT = new MessageFormat("{0}|enclosing|{1}");
-
-        private static final MessageFormat SEPARATOR_KEY_FORMAY = new MessageFormat("{0}|->|{1}");
-
-        Text getOrdinal(String order, int ordinal, Supplier<? extends Text> onAbsent) {
-            String ordinalKey = ORDINAL_KEY_FORMAT.format(new Object[]{order, ordinal});
+        Text getText(String order, String type, int value, Supplier<? extends Text> onAbsent) {
+            String ordinalKey = TEXT_KEY_FORMAT.format(new Object[]{order, type, value});
             return CACHE.computeIfAbsent(ordinalKey, key -> onAbsent.get());
-        }
 
-        Text getValue(String order, int value, Supplier<? extends Text> onAbsent) {
-            String ordinalKey = VALUE_KEY_FORMAT.format(new Object[]{order, value});
-            return CACHE.computeIfAbsent(ordinalKey, key -> onAbsent.get());
-        }
-
-        Text getEnclosing(String order, int value, Supplier<? extends Text> onAbsent) {
-            String ordinalKey = ENCLOSING_KEY_FORMAT.format(new Object[]{order, value});
-            return CACHE.computeIfAbsent(ordinalKey, key -> onAbsent.get());
-        }
-
-        Text getSeparator(String order, int value, Supplier<? extends Text> onAbsent) {
-            String ordinalKey = SEPARATOR_KEY_FORMAY.format(new Object[]{order, value});
-            return CACHE.computeIfAbsent(ordinalKey, key -> onAbsent.get());
         }
 
         void drop() {
