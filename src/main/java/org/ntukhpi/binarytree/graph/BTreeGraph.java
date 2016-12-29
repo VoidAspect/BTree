@@ -70,7 +70,7 @@ public class BTreeGraph { //todo re-implement concurrency
      *
      * @see Tree
      */
-    private Tree<Integer> tree;
+    private Tree<Integer> tree; //todo implement version control
 
     /**
      * Базовый конструктор - задает композицию групп визуальных компонентов.

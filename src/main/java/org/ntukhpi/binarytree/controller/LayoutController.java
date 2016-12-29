@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  *
  * @author Alexander Gorbunov
  */
-public class LayoutController implements Initializable {
+public class LayoutController implements Initializable { //todo implement export/import in json format //todo UI tests
 
     /**
      * Генератор случайных чисел.
@@ -107,7 +107,7 @@ public class LayoutController implements Initializable {
 
     /*##############################
      #                             #
-     # JavaFX elements             #
+     #      JavaFX elements        #
      #                             #
      ##############################*/
 
@@ -133,7 +133,7 @@ public class LayoutController implements Initializable {
     /* Console controls */
 
     @FXML
-    private TextFlow console;
+    private TextFlow console; //todo hide-console button
     @FXML
     private Text preOrderOut;
     @FXML
@@ -171,6 +171,10 @@ public class LayoutController implements Initializable {
         Group content = treeGraph.getContent();
         board.getChildren().add(content);
 
+        preOrderOut.setId(PRE_ORDER_ID);
+        postOrderOut.setId(POST_ORDER_ID);
+        inOrderOut.setId(IN_ORDER_ID);
+
         traverseMode = orders.getSelectedToggle();
         //initialize animation
         initTraversalMode();
@@ -180,7 +184,7 @@ public class LayoutController implements Initializable {
 
     /*##############################
      #                             #
-     # JavaFX handlers             #
+     #       JavaFX handlers       #
      #                             #
      ##############################*/
 
