@@ -3,9 +3,9 @@
 .root {
     -fx-background-color: transparent;
 
-    -fx-accent: red;
+    -fx-accent: crimson;
 
-    -fx-focus-color: red;
+    -fx-focus-color: crimson;
 }
 
 /* Search & input text-field */
@@ -56,7 +56,7 @@
     -fx-base: #333333;
     -fx-border-radius: 0%;
     -fx-background-radius: 0%;
-    -fx-text-fill: #ff8888;
+    -fx-text-fill: silver;
     -fx-pref-width: 25;
     -fx-max-width: 25;
     -fx-alignment: top-left;
@@ -64,7 +64,7 @@
 
 .hide-controls {
     -fx-rotate: -90;
-    -fx-font: 18px "Consolas";
+    -fx-font: 17px "Consolas";
     -fx-text-background-color: silver;
 }
 

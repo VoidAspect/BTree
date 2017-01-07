@@ -104,7 +104,6 @@ public class LayoutController implements Initializable { //todo implement export
      */
     private final TextCache cache = new TextCache();
 
-
     /*##############################
      #                             #
      #      JavaFX elements        #
@@ -117,10 +116,12 @@ public class LayoutController implements Initializable { //todo implement export
      */
     private Toggle traverseMode;
 
+
     /* Animation controls */
 
     @FXML
     private TitledPane animationPane;
+
     @FXML
     private ToggleGroup orders;
     @FXML
@@ -129,29 +130,29 @@ public class LayoutController implements Initializable { //todo implement export
     private ToggleButton togglePostOrder;
     @FXML
     private ToggleButton toggleInOrder;
-
     /* Console controls */
 
     @FXML
     private TextFlow console; //todo hide-console button
+
     @FXML
     private Text preOrderOut;
     @FXML
     private Text postOrderOut;
     @FXML
     private Text inOrderOut;
-
     /* Workspace */
 
     @FXML
     private FlowPane board;
+
     @FXML
     private ScrollPane viewArea;
-
     /* Sidebar controls */
 
     @FXML
     private AnchorPane rightControlGroup;
+
     @FXML
     private TextField input;
     @FXML
@@ -160,6 +161,14 @@ public class LayoutController implements Initializable { //todo implement export
     private VBox sideBar;
     @FXML
     private ToggleButton sideBarToggle;
+    @FXML
+    private SplitPane splitPane;
+    @FXML
+    private ToggleButton hideConsoleToggle;
+    @FXML
+    private ScrollPane consoleTab;
+    @FXML
+    private AnchorPane lowerTab;
 
     /**
      * Метод инициализации контроллера, вызываемый после инициалтизации визуальных компонентов.
@@ -288,6 +297,17 @@ public class LayoutController implements Initializable { //todo implement export
             rightControlGroup.getChildren().remove(sideBar);
         } else {
             rightControlGroup.getChildren().add(sideBar);
+        }
+    }
+
+    @FXML
+    public void hideConsole() {
+        if (hideConsoleToggle.isSelected()) {
+            splitPane.setDividerPositions(1.0);
+            lowerTab.getChildren().remove(consoleTab);
+        } else {
+            splitPane.setDividerPositions(0.75);
+            lowerTab.getChildren().add(consoleTab);
         }
     }
 
@@ -484,6 +504,7 @@ public class LayoutController implements Initializable { //todo implement export
         return optional;
     }
 
+
     /**
      * Сдвинуть экран до выделенной ячейки.
      */
@@ -504,7 +525,6 @@ public class LayoutController implements Initializable { //todo implement export
             viewArea.setVvalue(new BigDecimal(newV).setScale(3, RoundingMode.HALF_UP).doubleValue());
         });
     }
-
 
     /**
      * Утилитарный статический метод для создания структуры данных,

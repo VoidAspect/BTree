@@ -20,8 +20,8 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="570.0" prefWidth="700.0" stylesheets="layout.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ntukhpi.binarytree.controller.LayoutController">
-    <MenuBar layoutY="-84.0" prefHeight="31.0" prefWidth="700.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="660.0" prefWidth="700.0" stylesheets="layout.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ntukhpi.binarytree.controller.LayoutController">
+    <MenuBar layoutY="-3.0" prefHeight="38.0" prefWidth="700.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
         </Menu>
@@ -29,7 +29,7 @@
             <MenuItem mnemonicParsing="false" onAction="#clean" text="Clean" />
         </Menu>
     </MenuBar>
-    <SplitPane dividerPositions="0.75" layoutY="186.0" orientation="VERTICAL" prefHeight="375.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+    <SplitPane fx:id="splitPane" dividerPositions="0.75" layoutY="186.0" orientation="VERTICAL" prefHeight="375.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="230.0" prefWidth="600.0">
             <BorderPane fx:id="workSpace" layoutX="14.0" layoutY="26.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #aa9999;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <center>
@@ -104,14 +104,15 @@
                 </left>
             </BorderPane>
         </AnchorPane>
-        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="90.0" minWidth="0.0" prefHeight="70.0" prefWidth="600.0" style="-fx-background-color: #403940;" SplitPane.resizableWithParent="false">
-            <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <AnchorPane fx:id="lowerTab" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="25.0" minWidth="0.0" prefHeight="70.0" prefWidth="600.0" style="-fx-background-color: #403940;" SplitPane.resizableWithParent="false">
+            <ScrollPane fx:id="consoleTab" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <TextFlow fx:id="console" prefHeight="200.0" prefWidth="636.0" styleClass="console">
                     <Text fx:id="preOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&gt; Прямой обход: " />
                     <Text fx:id="postOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&#10;&#10;&gt; Обратный обход: " />
                     <Text fx:id="inOrderOut" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="console-label" text="&#10;&#10;&gt; Внутренний обход: " />
                 </TextFlow>
             </ScrollPane>
+         <ToggleButton fx:id="hideConsoleToggle" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#hideConsole" styleClass="hide-controls-button" text="▲" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
         </AnchorPane>
     </SplitPane>
 </AnchorPane>
