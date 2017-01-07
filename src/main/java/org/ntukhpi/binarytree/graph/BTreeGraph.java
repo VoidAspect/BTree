@@ -459,12 +459,10 @@ public class BTreeGraph { //todo re-implement concurrency
 
         private static final Map<String, Node> CACHE = new HashMap<>();
 
-        private static final MessageFormat CELL_KEY_FORMAT = new MessageFormat("{0}");
-
         private static final MessageFormat VERTEX_KEY_FORMAT = new MessageFormat("{0}-{1}");
 
         Label getCell(int value, Supplier<? extends Node> onAbsent) {
-            String cellKey = CELL_KEY_FORMAT.format(new Object[] {value});
+            String cellKey = String.valueOf(value);
             return (Label) CACHE.computeIfAbsent(cellKey, key -> onAbsent.get());
         }
 
