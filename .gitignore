@@ -3,10 +3,10 @@
 # IntelliJ
 /out/
 .idea
+*.iml
 
 # Gradle:
 .gradle
 build
 src/test/resources/
-gradle/
 gradlew*
